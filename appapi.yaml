@@ -1,0 +1,529 @@
+openapi: 3.0.1
+info:
+  title: Akamu APIk
+  description: Specification of the REST Api used by the akamu website.
+  version: 0.1.0
+servers:
+  - url: 'http://akamu.de/{basePath}'
+    description: Domain of main akamu server
+    variables:
+      basePath:
+        description: The path to the api. The default path is 'api'.
+        enum:
+          - api
+          - devApi
+        default: api
+paths:
+  /user:
+    summary: Access to the users of the app.
+    get:
+      description: >-
+        Returns an array of object representing all app users. The user objects
+        are stripped down to what is necessary to know as an app user.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+        '500':
+          description: The server cannot deliver due to an internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal-error'
+        default:
+          description: Some unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    post:
+      description: Registers a new user.
+      requestBody:
+        description: Data needed to register a new user.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - password
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: User registered successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: The user data was invalid. The user could not be registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/input-error'
+        default:
+          description: Some unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  '/user/{id}':
+    summary: Perform operation on a specific user.
+    get:
+      description: >-
+        Returns an object representing the user with `id`. The user object is
+        stripped down to what is necessary to know as an app user.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '500':
+          description: The server cannot deliver due to an internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal-error'
+        default:
+          description: Some unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    patch:
+      description: Updates data of a registered user.
+      parameters:
+        - name: semester
+          description: updated semester number
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: avatar
+          description: updated avatar id
+          in: query
+          schema:
+            type: integer
+            format: uint32
+        - name: title
+          description: updated selected title
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Changes applied.
+        '400':
+          description: The request body data was invalid. No changes applied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/input-error'
+        '403':
+          description: The user tried to change another users data.
+        '404':
+          description: User with `id` does not exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/input-error'
+        '500':
+          description: The server cannot deliver due to an internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal-error'
+        default:
+          description: Some unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  '/duel/{id}':
+    get:
+      description: Get duel with `id`.
+      responses:
+        '200':
+          description: Query was correct and performed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/duel'
+        '403':
+          description: The user tried to retrieve duels of another user.
+        '404':
+          description: User with `id` does not exist.
+        '500':
+          description: The server cannot deliver due to an internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal-error'
+        default:
+          description: Some unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    patch:
+      description: Used to update a duel after finishing a round.
+      
+      
+  '/duel':
+    summary: Perform operations on duels.
+    get:
+      description: Get a set of duels using a filter.
+      parameters:
+        - name: statusfilter
+          description: Filter duels by the given statuses.
+          required: false
+          schema:
+            type: array
+            maxLength: 5
+            uniqueItems: true
+            items:
+              schema:
+                type: integer
+                maximum: 5
+                minimum: 0
+      responses:
+        '200':
+          description: Query was correct and performed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  schema:
+                    $ref: '#/components/schemas/duelinfo'
+        '400':
+          description: Query was invlid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/input-error'
+        '403':
+          description: The user tried to retrieve duels of another user.
+        '404':
+          description: User with `id` does not exist.
+        '500':
+          description: The server cannot deliver due to an internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal-error'
+        default:
+          description: Some unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    post:
+      description: Start a duel by posting a duel challenge.
+      parameters:
+        user:
+          description: The user that is challanged.
+          required: true
+          schema:
+            type: integer
+            format: uint32
+      responses:
+        '200':
+          description: Query was correct and performed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  schema:
+                    $ref: '#/components/schemas/duel'
+        '400':
+          description: Query was invlid.
+        '403':
+          description: The user tried to retrieve duels of another user.
+        '404':
+          description: User with `id` does not exist.
+        '500':
+          description: The server cannot deliver due to an internal error.
+
+  '/friend':
+      get:
+        summary: "Get a list of your friends."
+        description: "Get list of friends that user has."
+        responses:
+          '200':
+            description: "List of users that are friends of this user is returned."
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/userinfo'
+      post:
+        summary: "Add a friend to your friendlist."
+        description: "Posting a user id to this endpoint adds the userid to the list of friends of the user making the request."
+        parameters:
+          - name: id
+            description: "`id` of the user to add to your friendlist."
+            schema:
+              type: integer
+              format: uint32
+            in: query
+        responses:
+          '200':
+            description: The updated friend list.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/userinfo'
+          '404':
+            description: A user with id does not exists.
+          '500':
+            description: The server was unable to perform the requested operation.
+            
+      delete:
+        summary: "Delete a friend from your friendlist."
+        description: "Deletes the userid id from the friendlist of the user making the request."
+        parameters:
+          - name: id
+            description: "`id` of the user to add to your friendlist."
+            schema:
+              type: integer
+              format: uint32
+            in: query
+        responses:
+          '200':
+            description: The updated friend list.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/userinfo'
+          '404':
+            description: A user with id does not exists.
+          '500':
+            description: The server was unable to perform the requested operation.
+    
+components:
+  schemas:
+    input-error:
+      description: Thrown upon invalid user input. Usually code 400+.
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          default: Invalid input.
+    internal-error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          default: Internal server error.
+    error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        message:
+          type: string
+          default: An unexpected error occured
+    userinfo:
+      type: object
+      required:
+        - name
+        - id
+        - avatar
+        - title
+      properties:
+        id:
+          description: id of the user
+          type: integer
+          format: uint32
+        name:
+          type: string
+        title:
+          description: currently selected title of the user
+          type: string
+        avatar:
+          description: id of the users selected avatar
+          type: integer
+          format: uint32
+    user:
+      type: object
+      properties:
+        allOf:
+          - $ref: '#/components/schemas/userinfo'
+          - type: object
+            properties:
+              time-registered:
+                type: string
+                format: date-time
+              semester:
+                type: integer
+                format: int32
+              verified:
+                type: boolean
+              university:
+                type: string
+              experience:
+                type: integer
+                format: int32
+              memorycoins:
+                type: integer
+                format: int32
+    question:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: uint32
+        author:
+          type: string
+        text:
+          type: string
+        image:
+          type: integer
+          format: uint32
+        subject:
+          type: string
+        pool:
+          $ref: '#/components/schemas/pool'
+        answer:
+          oneOf:
+            - $ref: '#/components/schemas/text-input-answer'
+            - $ref: '#/components/schemas/multiple-choice-answer'
+    round:
+      type: object
+      properties:
+        pool:
+          required: true
+          type: object
+          $ref: '#/components/schemas/pool'
+        question1:
+          required: true
+          type: object
+          $ref: '#/components/schemas/question'
+        question2:
+          required: false
+          type: object
+          $ref: '#/components/schemas/question'
+    duelinfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: uint32
+        user-challanger:
+          $ref: '#/components/schemas/user'
+        user-challanged:
+          $ref: '#/components/schemas/user'
+        status:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 4
+        time-start:
+          type: string
+          format: date-time
+        time-changed:
+          type: string
+          format: date-time
+        time-end:
+          type: string
+          format: date-time
+        score-challanger:
+          type: integer
+          format: int32
+        score-challanged:
+          type: integer
+          format: int32
+        winner:
+          type: integer
+          format: uint32
+    duel:
+      type: object
+      properties:
+        allOf:
+          - $ref: '#/components/schemas/duelinfo'
+          - type: object
+            properties:
+              round1:
+                type: object
+                $ref: '#/components/schemas/round'
+              round2:
+                type: object
+                $ref: '#/components/schemas/round'
+    text-input-answer:
+      type: string
+    multiple-choice-answer:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: uint32
+          correct:
+            type: boolean
+          image:
+            type: integer
+            format: uint32
+          text:
+            type: string
+        required:
+          - id
+          - correct
+          - text
+      minLength: 2
+      maxLength: 6
+    explanation:
+      type: object
+      properties:
+        text:
+          type: string
+    pool:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: uint32
+        name:
+          type: string
+        code:
+          type: string
+    title:
+      type: object
+      properties:
+        name:
+          type: string
+        subject:
+          type: integer
+          format: uint32
+        unlock_score:
+          type: integer
+          format: int32
+        unlock_win:
+          type: integer
+          format: int32
