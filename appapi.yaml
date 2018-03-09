@@ -1,8 +1,11 @@
 openapi: 3.0.1
 info:
-  title: Akamu APIk
-  description: Specification of the REST Api used by the akamu website.
-  version: 0.1.0
+  title: Akamu API
+  description: |
+    Specification of the API used by the akamu mobile application. 
+    The naming in this specification is *all lower case* using *dashes* as delimiters.
+    In the descriptions and comments *'you'* refers to the user making the request. This user is implicitly identified by the authentication header.
+  version: 0.1.1
 servers:
   - url: 'http://akamu.de/{basePath}'
     description: Domain of main akamu server
@@ -14,12 +17,11 @@ servers:
           - devApi
         default: api
 paths:
-  /user:
-    summary: Access to the users of the app.
+  '/user':
     get:
+      summary: Get array of userinfo for all users.
       description: >-
-        Returns an array of object representing all app users. The user objects
-        are stripped down to what is necessary to know as an app user.
+        Returns an array of object representing all app users. The user objects are stripped down to what is necessary to know as an app user.
       responses:
         '200':
           description: Success
@@ -42,7 +44,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
     post:
-      description: Registers a new user.
+      summary: Registers a new user.
       requestBody:
         description: Data needed to register a new user.
         content:
@@ -79,33 +81,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-  '/user/{id}':
-    summary: Perform operation on a specific user.
-    get:
-      description: >-
-        Returns an object representing the user with `id`. The user object is
-        stripped down to what is necessary to know as an app user.
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-        '500':
-          description: The server cannot deliver due to an internal error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internal-error'
-        default:
-          description: Some unexpected error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
     patch:
-      description: Updates data of a registered user.
+      summary: Updates data of a registered user.
       parameters:
         - name: semester
           description: updated semester number
@@ -153,9 +130,92 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  '/user/login':
+    get:
+      summary: Login with credentials.
+      description: This endpoint is used to authenticate to the server. If successful an authentication token is returned.
+      parameters:
+        - name: username
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: password
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An authentication token and the users id is returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - token
+                properties:
+                  id:
+                    description: The id of the user.
+                    type: integer
+                    format: uint32
+                  token:
+                    description: An authentication token the user can use. This token can expire.
+        '201':
+          description: Authentication failure.
+        '404':
+          description: A user with `username` does not exist.
+  '/user/available/username':
+    get:
+      summary: Check whether a username is not already taken.
+      description: Returns a boolean indicating whether the `username` can be taken for a new account.
+      responses:
+        '200':
+          description: Username is still available.
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '500':
+          description: The server cannot deliver due to an internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal-error'
+          
+  '/user/{id}':
+    get:
+      summary: Get user info.
+      description: >-
+        Returns an object representing the user with `id`. The user object is stripped down to public information if `id` is not the same as your id.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/user'
+                  - $ref: '#/components/schemas/userinfo'
+        '404':
+          description: A user with `id` does not exist.
+        '500':
+          description: The server cannot deliver due to an internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal-error'
+        default:
+          description: Some unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+                
   '/duel/{id}':
     get:
-      description: Get duel with `id`.
+      summary: Get duel with `id`.
       responses:
         '200':
           description: Query was correct and performed successfully.
@@ -180,26 +240,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
     patch:
-      description: Used to update a duel after finishing a round.
-      
+      summary: Update duel after finishing a round.
+      description: Send round results to the server to update the state.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - answer1
+                - asnwer2
+              properties:
+                answer1:
+                  description: Answer to the first question.
+                  $ref: '#/components/schemas/answer'
+                answer2:
+                  description: Answer to the second question.
+                  $ref: '#/components/schemas/answer'
+      responses:
+        '200':
+          description: The request was valid. Duel was updated.
+        '403':
+          description: The user was not the one taking turns.
+        '404':
+          description: A duel with `id` does not exist.
+        '400':
+          description: The request body was invalid. The response should contain details on the error.
       
   '/duel':
-    summary: Perform operations on duels.
     get:
+      summary: Get your duel objects
       description: Get a set of duels using a filter.
       parameters:
         - name: statusfilter
           description: Filter duels by the given statuses.
-          required: false
+          in: query
+          explode: false
           schema:
             type: array
             maxLength: 5
             uniqueItems: true
             items:
-              schema:
-                type: integer
-                maximum: 5
-                minimum: 0
+              type: integer
+              maximum: 5
+              minimum: 0
       responses:
         '200':
           description: Query was correct and performed successfully.
@@ -208,8 +292,7 @@ paths:
               schema:
                 type: array
                 items:
-                  schema:
-                    $ref: '#/components/schemas/duelinfo'
+                  $ref: '#/components/schemas/duelinfo'
         '400':
           description: Query was invlid.
           content:
@@ -233,14 +316,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
     post:
-      description: Start a duel by posting a duel challenge.
+      summary: Start a duel by posting a duel challenge.
       parameters:
-        user:
-          description: The user that is challanged.
-          required: true
-          schema:
-            type: integer
-            format: uint32
+          - name: user
+            description: The user that is challanged.
+            required: true
+            in: query
+            schema:
+              type: integer
+              format: uint32
       responses:
         '200':
           description: Query was correct and performed successfully.
@@ -249,8 +333,7 @@ paths:
               schema:
                 type: array
                 items:
-                  schema:
-                    $ref: '#/components/schemas/duel'
+                  $ref: '#/components/schemas/duel'
         '400':
           description: Query was invlid.
         '403':
@@ -320,7 +403,21 @@ paths:
             description: A user with id does not exists.
           '500':
             description: The server was unable to perform the requested operation.
-    
+  
+  '/pool':
+    get:
+      summary: Get list of all playable question pools.
+      responses:
+        '200':
+          description: List of the question pool objects.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/pool'
+        '500':
+          description: The server was unable to perform the requested operation.
 components:
   schemas:
     input-error:
@@ -371,28 +468,26 @@ components:
           type: integer
           format: uint32
     user:
-      type: object
-      properties:
-        allOf:
-          - $ref: '#/components/schemas/userinfo'
-          - type: object
-            properties:
-              time-registered:
-                type: string
-                format: date-time
-              semester:
-                type: integer
-                format: int32
-              verified:
-                type: boolean
-              university:
-                type: string
-              experience:
-                type: integer
-                format: int32
-              memorycoins:
-                type: integer
-                format: int32
+      allOf:
+        - $ref: '#/components/schemas/userinfo'
+        - type: object
+          properties:
+            time-registered:
+              type: string
+              format: date-time
+            semester:
+              type: integer
+              format: int32
+            verified:
+              type: boolean
+            university:
+              type: string
+            experience:
+              type: integer
+              format: int32
+            memorycoins:
+              type: integer
+              format: int32
     question:
       type: object
       properties:
@@ -422,9 +517,14 @@ components:
           type: object
           $ref: '#/components/schemas/pool'
         question1:
-          required: true
           type: object
-          $ref: '#/components/schemas/question'
+          properties:
+            question:
+              required: true
+              type: object
+              $ref: '#/components/schemas/question'
+            answer-challanger:
+              $ref: '#/components'
         question2:
           required: false
           type: object
@@ -463,18 +563,20 @@ components:
           type: integer
           format: uint32
     duel:
-      type: object
-      properties:
-        allOf:
-          - $ref: '#/components/schemas/duelinfo'
-          - type: object
-            properties:
-              round1:
-                type: object
-                $ref: '#/components/schemas/round'
-              round2:
-                type: object
-                $ref: '#/components/schemas/round'
+      allOf:
+        - $ref: '#/components/schemas/duelinfo'
+        - type: object
+          properties:
+            round1:
+              type: object
+              $ref: '#/components/schemas/round'
+            round2:
+              type: object
+              $ref: '#/components/schemas/round'
+    answer:
+      oneOf:
+        - $ref: '#/components/schemas/multiple-choice-answer'
+        - $ref: '#/components/schemas/text-input-answer'
     text-input-answer:
       type: string
     multiple-choice-answer:
@@ -513,6 +615,9 @@ components:
           type: string
         code:
           type: string
+        image:
+          type: integer
+          format: uint32
     title:
       type: object
       properties:
