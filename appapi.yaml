@@ -5,7 +5,7 @@ info:
     Specification of the API used by the akamu mobile application. 
     The naming in this specification is *all lower case* using *dashes* as delimiters.
     In the descriptions and comments *'you'* refers to the user making the request. This user is implicitly identified by the authentication header.
-  version: 0.1.1
+  version: 0.1.2
 servers:
   - url: 'http://akamu.de/{basePath}'
     description: Domain of main akamu server
@@ -16,12 +16,17 @@ servers:
           - api
           - devApi
         default: api
+security:
+  - bearer-auth: []
+      
 paths:
   '/user':
     get:
       summary: Get array of userinfo for all users.
       description: >-
         Returns an array of object representing all app users. The user objects are stripped down to what is necessary to know as an app user.
+      parameters:
+        - $ref: '#/parameters/userid'
       responses:
         '200':
           description: Success
@@ -44,6 +49,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
     post:
+      security: []
       summary: Registers a new user.
       requestBody:
         description: Data needed to register a new user.
@@ -84,6 +90,7 @@ paths:
     patch:
       summary: Updates data of a registered user.
       parameters:
+        - $ref: '#/parameters/userid'
         - name: semester
           description: updated semester number
           in: query
@@ -132,6 +139,7 @@ paths:
                 $ref: '#/components/schemas/error'
   '/user/login':
     get:
+      security: []
       summary: Login with credentials.
       description: This endpoint is used to authenticate to the server. If successful an authentication token is returned.
       parameters:
@@ -168,6 +176,7 @@ paths:
           description: A user with `username` does not exist.
   '/user/available/username':
     get:
+      security: []
       summary: Check whether a username is not already taken.
       description: Returns a boolean indicating whether the `username` can be taken for a new account.
       responses:
@@ -185,6 +194,8 @@ paths:
                 $ref: '#/components/schemas/internal-error'
           
   '/user/{id}':
+    parameters:
+      - $ref: '#/parameters/userid'
     get:
       summary: Get user info.
       description: >-
@@ -214,6 +225,8 @@ paths:
                 $ref: '#/components/schemas/error'
                 
   '/duel/{id}':
+    parameters:
+      - $ref: '#/parameters/userid'
     get:
       summary: Get duel with `id`.
       responses:
@@ -268,6 +281,8 @@ paths:
           description: The request body was invalid. The response should contain details on the error.
       
   '/duel':
+    parameters:
+      - $ref: '#/parameters/userid'
     get:
       summary: Get your duel objects
       description: Get a set of duels using a filter.
@@ -344,67 +359,71 @@ paths:
           description: The server cannot deliver due to an internal error.
 
   '/friend':
-      get:
-        summary: "Get a list of your friends."
-        description: "Get list of friends that user has."
-        responses:
-          '200':
-            description: "List of users that are friends of this user is returned."
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/userinfo'
-      post:
-        summary: "Add a friend to your friendlist."
-        description: "Posting a user id to this endpoint adds the userid to the list of friends of the user making the request."
-        parameters:
-          - name: id
-            description: "`id` of the user to add to your friendlist."
-            schema:
-              type: integer
-              format: uint32
-            in: query
-        responses:
-          '200':
-            description: The updated friend list.
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/userinfo'
-          '404':
-            description: A user with id does not exists.
-          '500':
-            description: The server was unable to perform the requested operation.
-            
-      delete:
-        summary: "Delete a friend from your friendlist."
-        description: "Deletes the userid id from the friendlist of the user making the request."
-        parameters:
-          - name: id
-            description: "`id` of the user to add to your friendlist."
-            schema:
-              type: integer
-              format: uint32
-            in: query
-        responses:
-          '200':
-            description: The updated friend list.
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/userinfo'
-          '404':
-            description: A user with id does not exists.
-          '500':
-            description: The server was unable to perform the requested operation.
-  
+    parameters:
+      - $ref: '#/parameters/userid'
+    get:
+      summary: "Get a list of your friends."
+      description: "Get list of friends that user has."
+      responses:
+        '200':
+          description: "List of users that are friends of this user is returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userinfo'
+    post:
+      summary: "Add a friend to your friendlist."
+      description: "Posting a user id to this endpoint adds the userid to the list of friends of the user making the request."
+      parameters:
+        - name: id
+          description: "`id` of the user to add to your friendlist."
+          schema:
+            type: integer
+            format: uint32
+          in: query
+      responses:
+        '200':
+          description: The updated friend list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userinfo'
+        '404':
+          description: A user with id does not exists.
+        '500':
+          description: The server was unable to perform the requested operation.
+          
+    delete:
+      summary: "Delete a friend from your friendlist."
+      description: "Deletes the userid id from the friendlist of the user making the request."
+      parameters:
+        - name: id
+          description: "`id` of the user to add to your friendlist."
+          schema:
+            type: integer
+            format: uint32
+          in: query
+      responses:
+        '200':
+          description: The updated friend list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userinfo'
+        '404':
+          description: A user with id does not exists.
+        '500':
+          description: The server was unable to perform the requested operation.
+
   '/pool':
+    parameters:
+      - $ref: '#/parameters/userid'
     get:
       summary: Get list of all playable question pools.
       responses:
@@ -418,7 +437,17 @@ paths:
                   $ref: '#/components/schemas/pool'
         '500':
           description: The server was unable to perform the requested operation.
+
 components:
+  parameters:
+    userid:
+      name: 'UUID'
+      in: header
+      description: The `userid` of the client user making the request.
+      required: true
+      schema:
+        type: integer
+        format: uint32
   schemas:
     input-error:
       description: Thrown upon invalid user input. Usually code 400+.
@@ -632,3 +661,11 @@ components:
         unlock_win:
           type: integer
           format: int32
+  securitySchemes:
+    basic-auth:
+      type: http
+      scheme: basic
+    bearer-auth:
+      type: http
+      scheme: bearer
+  
