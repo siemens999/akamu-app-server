@@ -235,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `akamu`.`classicduel` (
   `pool1` INT UNSIGNED NOT NULL,
   `pool2` INT UNSIGNED NOT NULL,
   `status` INT(1) NOT NULL,
-  `time_start` DATETIME NOT NULL,
+  `time_start` DATETIME NOT NULL,time_registered
   `time_changed` DATETIME NOT NULL,
   `time_end` DATETIME NULL,
   `score_challanger` INT NULL,
