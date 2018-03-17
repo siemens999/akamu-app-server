@@ -12,7 +12,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- This is the akamu database schema.
 
--- -----------------------------------------------------
+-- ------------------------------------duel-----------------
 -- Schema akamu
 --
 -- This is the akamu database schema.
@@ -222,9 +222,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `akamu`.`duel`
+-- Table `akamu`.`classicduel`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `akamu`.`duel` (
+CREATE TABLE IF NOT EXISTS `akamu`.`classicduel` (
   `idduel` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_challanger` INT UNSIGNED NOT NULL,
   `user_challanged` INT UNSIGNED NOT NULL,
