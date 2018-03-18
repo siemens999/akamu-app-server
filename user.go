@@ -41,15 +41,15 @@ func registerUser(ctx *gin.Context) {
 	signInResponse.Token = DBHandler.AuthToken{"token value", time.Now()}
 
 	//build json
-	res, err := json.Marshal(&signInResponse)
+	//res , err := json.Marshal(&signInResponse)
 
-	if err != nil {
-		ctx.String(http.StatusInternalServerError, "Failed to create json response:" + err.Error())
-		return
-	}
+	//if err != nil {
+	//	ctx.String(http.StatusInternalServerError, "Failed to create json response:" + err.Error())
+	//	return
+	//}
 
-	//TODO: find out if we should send string(res) or just res
-    ctx.JSON(http.StatusOK, string(res))
+	//ctx.JSON(http.StatusOK, string(res))
+    ctx.JSON(http.StatusOK, signInResponse)
   
 }
 
