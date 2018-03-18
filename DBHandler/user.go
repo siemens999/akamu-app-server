@@ -44,11 +44,12 @@ type SignUpForm struct{
 }
 
 /* 
- * adds a new row to the user table and adds the id value to the signInResponse. 
- * User specific attributes are taken from the signUpFrom while non user
+ * adds the new user to the database and saves the respective id value to the signInResponse. 
+ * User specific attributes are taken from the signUpForm while non user
  * specific data is hardcoded here. e.G. score is set to 0.
  */
 func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInResponse) (error){
+	
 	//Test DB Functionality
     db, err := sql.Open("mysql", "root:13abUtv0@/akamu")
 
