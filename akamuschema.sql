@@ -169,7 +169,6 @@ CREATE TABLE IF NOT EXISTS `akamu`.`user` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   INDEX `fk_user_avatar_idx` (`selected_avatar` ASC),
   INDEX `fk_user_title_idx` (`selected_title` ASC),
-  UNIQUE INDEX `idmongo_UNIQUE` (`idmongo` ASC),
   CONSTRAINT `fk_user_avatar`
     FOREIGN KEY (`selected_avatar`)
     REFERENCES `akamu`.`avatar` (`idavatar`)
