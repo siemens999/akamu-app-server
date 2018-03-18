@@ -153,7 +153,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `akamu`.`user` (
   `iduser` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `time_registered` DATETIME NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
+  `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
   `email` VARCHAR(45) NULL,
   `semester` INT UNSIGNED NULL,
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `akamu`.`user` (
   `selected_title` INT UNSIGNED NULL DEFAULT 0,
   `verified` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   `university` VARCHAR(45) NULL,
-  `idmongo` VARCHAR(45) NOT NULL,
+  `idmongo` VARCHAR(45),
   PRIMARY KEY (`iduser`),
   UNIQUE INDEX `iduser_UNIQUE` (`iduser` ASC),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC),
