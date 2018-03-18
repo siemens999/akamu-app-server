@@ -4,6 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"./DBHandler"
 	"net/http"
+	"encoding/json"
+	"time"
 )
 
 func setupUserRoutes(router *gin.Engine) { // Changed *gin.Router to *gin.Context
@@ -23,7 +25,7 @@ func registerUser(ctx *gin.Context) {
 	var signUpForm DBHandler.SignUpForm
 	var signInResponse DBHandler.SignInResponse
 
-	//grabs data from sent in the http post request and bind it to the signUpForm
+	//grabs data from the http post request and bind it to the signUpForm
     ctx.BindJSON(&signUpForm)
 
     //insert user into the Akamu sql database
@@ -31,14 +33,23 @@ func registerUser(ctx *gin.Context) {
 
     if err != nil {
 		ctx.String(http.StatusInternalServerError, "Failed inserting user:" + err.Error())
+		return
+	}
+	
+
+    //TODO: Generate appropriated token
+	signInResponse.Token = DBHandler.AuthToken{"token value", time.Now()}
+
+	//build json
+	res, err := json.Marshal(&signInResponse)
+
+	if err != nil {
+		ctx.String(http.StatusInternalServerError, "Failed to create json response:" + err.Error())
+		return
 	}
 
-    //TODO: 
-    //Generate token and put token value in signInReponse
-    //build http response
-
-    //test to show the new user id
-    ctx.JSON(http.StatusOK, gin.H{"id":signInResponse.Id,})
+	//TODO: find out if we should send string(res) or just res
+    ctx.JSON(http.StatusOK, string(res))
   
 }
 
