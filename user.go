@@ -20,12 +20,18 @@ func setupUserRoutes(router *gin.Engine) { // Changed *gin.Router to *gin.Contex
 	router.PUT("/user", updateUser)
 }
 
+/*
+ * register the new user and creates http response containing 
+ * the user database id and authentication token.
+ */
 func registerUser(ctx *gin.Context) {
 
+	//SignUpForm is the struct that contains all information a user must provide to create a new account.
 	var signUpForm DBHandler.SignUpForm
+	//SignInResponse is the struct that contain all the information given back to user after login or singup
 	var signInResponse DBHandler.SignInResponse
 
-	//grabs data from the http post request and bind it to the signUpForm
+	//grabs data from the http post request and bind it to the signUpForm struct
     ctx.BindJSON(&signUpForm)
 
     //insert user into the Akamu sql database
@@ -49,6 +55,7 @@ func registerUser(ctx *gin.Context) {
 	//}
 
 	//ctx.JSON(http.StatusOK, string(res))
+
     ctx.JSON(http.StatusOK, signInResponse)
   
 }
