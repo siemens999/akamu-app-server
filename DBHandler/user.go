@@ -3,7 +3,7 @@ package DBHandler
 /*
  * encapsulates all functions that interact with database user objects.
  * should not use classes such as "net/http". http logic should not be 
- * implemented
+ * implemented here.
  */
 
 
@@ -30,10 +30,8 @@ type AuthToken struct{
 type SignInResponse struct{
     Id string `json:"id" binding:"required"`
     Token AuthToken `json:"token" binding:"required"`
-    Email string `json:"email" binding:"required"`
-    University string `json:"university" binding:"required"`
-    Semester int `json:"semester" binding:"required"`
 }
+
 /*
  * This struct encapsulate all data required to register a new user.
  */
@@ -46,10 +44,11 @@ type SignUpForm struct{
 }
 
 /* 
- * adds a new row to the user table. User specific attributes are taken from the signUpFrom 
- * while non user specific data is hardcoded here. e.G. score is set to 0.
+ * adds a new row to the user table and adds the id value to the signInResponse. 
+ * User specific attributes are taken from the signUpFrom while non user
+ * specific data is hardcoded here. e.G. score is set to 0.
  */
-func InsertUser(ctx *gin.Context, signUpForm SignUpForm, SignInResponse *SignInResponse) (error){
+func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInResponse) (error){
 	//Test DB Functionality
     db, err := sql.Open("mysql", "root:13abUtv0@/akamu")
 
@@ -91,7 +90,6 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, SignInResponse *SignInR
 	}
 	defer stmt.Close()
 
-
 	//execute sql statement to insert the new user into the user table
 	_ , err = stmt.Exec(time.Now(), signUpForm.Username, signUpForm.Password, 
 		signUpForm.Email, signUpForm.Semester,0,1,1,0,signUpForm.University)
@@ -114,7 +112,7 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, SignInResponse *SignInR
 	}
 
 	//execute sql query that returns the id from the new user and save its value to SignInResponse.Id
-	err = tx.QueryRow(selectSQL,signUpForm.Username).Scan(&SignInResponse.Id)
+	err = tx.QueryRow(selectSQL,signUpForm.Username).Scan(&signInResponse.Id)
 
 	//check for erros while executing sql statement
 	if err != nil {
@@ -122,13 +120,11 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, SignInResponse *SignInR
 		tx.Rollback()
 		return fmt.Errorf("Failed executing select new user id query statement." + err.Error())
 	}
-	//commit transaction
+	//commit successful transaction
 	tx.Commit()
 
 	//return without errors
 	return nil
-
-
 }
 
 
