@@ -16,6 +16,14 @@ import (
 import _ "github.com/go-sql-driver/mysql"
 import sq "github.com/Masterminds/squirrel"
 
+//database type is int(11)
+const initialUserScore int = 0
+//the int(10) UN is the avatar id
+const initialUserAvatar uint = 1
+//the int(10) UN is the title id
+const initialUserTitle uint = 1
+//the tinyint(3) UN is 0 for unverified users
+const initialVerifiedStatus uint = 0
 /*
  * Authentication token
  */
@@ -29,9 +37,9 @@ type AuthToken struct{
  */
 type SignInResponse struct{
 	//the user id
-    Id string `json:"id" binding:"required"`
+    Id string
     //the user new authentication token
-    Token AuthToken `json:"token" binding:"required"`
+    Token AuthToken
 }
 
 /*
@@ -95,7 +103,8 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInR
 
 	//execute sql statement to insert the new user into the user table
 	_ , err = stmt.Exec(time.Now(), signUpForm.Username, signUpForm.Password, 
-		signUpForm.Email, signUpForm.Semester,0,1,1,0,signUpForm.University)
+		signUpForm.Email, signUpForm.Semester, initialUserScore, initialUserAvatar,
+		initialUserTitle, initialVerifiedStatus, signUpForm.University)
 
 	//check for erros while executing the insert sql statement
 	if err != nil {

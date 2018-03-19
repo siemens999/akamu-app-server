@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	//"net/http"
 )
 
 func setupDuelRoutes(router *gin.Engine) {
