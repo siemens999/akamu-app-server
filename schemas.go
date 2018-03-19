@@ -44,8 +44,7 @@ type ExplanationSchema struct {
 	Text string `json:"text" binding:"required"`
 }
 
-type UserSchema struct extends UserInfoSchema {
-	*UserInfoSchema
+type UserSchema struct {
 	TimeRegistered string; 	`json:"time-registered" binding:"required"`	// datetime format
 	Semester int;           `json:"semester" binding:"required"`
 	Verified bool;          `json:"verified" binding:"required"`
