@@ -56,18 +56,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - name
-                - password
-              properties:
-                name:
-                  type: string
-                password:
-                  type: string
-                email:
-                  type: string
-                  format: email
+              $ref: '#/components/schemas/signup-formular'
       responses:
         '200':
           description: User registered successfully.
@@ -475,10 +464,30 @@ components:
         message:
           type: string
           default: An unexpected error occured
+    signup-formular:
+       type: object
+              required:
+                - username
+                - password
+                - email
+                - university
+                - semester
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                university:
+                  type: string
+                semester:
+                  format: int32
     userinfo:
       type: object
       required:
-        - name
+        - username
         - id
         - avatar
         - title
@@ -487,7 +496,7 @@ components:
           description: id of the user
           type: integer
           format: uint32
-        name:
+        username:
           type: string
         title:
           description: currently selected title of the user
@@ -668,4 +677,3 @@ components:
     bearer-auth:
       type: http
       scheme: bearer
-  
