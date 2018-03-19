@@ -28,7 +28,7 @@ func registerUser(ctx *gin.Context) {
 	//The standard akamu json response that will be sent in the http response
 	jsonResponse := AkamuJsonResponse{}
 	//SignUpForm is the struct that contains all information a user must provide to create a new account.
-	signUpForm := DBHandler.SignUpForm{}
+	signUpForm := SignUpFormular{}
 	//SignInResponse is the struct that contain all the information given back to user after login or singup
 	signInResponse := DBHandler.SignInResponse{}
 

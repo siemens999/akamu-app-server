@@ -63,7 +63,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                type: object
+                required:
+                  - id
+                properties:
+                  id:
+                    description: The id of the user.
+                    type: integer
+                    format: uint32
         '400':
           description: The user data was invalid. The user could not be registered
           content:
