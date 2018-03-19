@@ -28,7 +28,9 @@ type AuthToken struct{
  * This struct encapsulate all data returned for users after they signIn or SignUp.
  */
 type SignInResponse struct{
+	//the user id
     Id string `json:"id" binding:"required"`
+    //the user new authentication token
     Token AuthToken `json:"token" binding:"required"`
 }
 
@@ -63,9 +65,9 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInR
 	}
 	defer db.Close()
 
-	//create transaction, following tutorial that did not check for errors here
+	//create transaction, following a tutorial that did not check for errors here
 	tx, _ := db.Begin()
-	//defering a Rollback sounds strange but is advised at http://go-database-sql.org/prepared.html
+	//defering a Rollback here sounds strange but is advised at http://go-database-sql.org/prepared.html
 	defer tx.Rollback()
 
 	//prepare querry to insert user
@@ -77,7 +79,7 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInR
 
     //check for errors creating squirrel sinsert sql statement
     if err != nil {
-		return fmt.Errorf("Could not create squirrel insert sql statement." + err.Error())
+		return fmt.Errorf("Could not create squirrel insert sql statement. " + err.Error())
 	}
 
     //creates the insert sql statement for the transaction
@@ -87,7 +89,7 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInR
 	if err != nil {
 		//Rollback transaction in case of error
 		tx.Rollback()
-		return fmt.Errorf("Failed to prepare query statement." + err.Error())
+		return fmt.Errorf("Failed to prepare query statement. " + err.Error())
 	}
 	defer stmt.Close()
 
@@ -99,7 +101,7 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInR
 	if err != nil {
 		//if an error occured Rollback the transaction
 		tx.Rollback()
-		return fmt.Errorf("Failed executing insert query statement." + err.Error())
+		return fmt.Errorf("Failed executing insert query statement. " + err.Error())
 	}
 
 	//prepare querry to get the id using squirrel
@@ -109,7 +111,7 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInR
     if err != nil {
     	//if an error occured Rollback the transaction
 		tx.Rollback()
-		return fmt.Errorf("Could not create squirrel statement." + err.Error())
+		return fmt.Errorf("Could not create squirrel statement. " + err.Error())
 	}
 
 	//execute sql query that returns the id from the new user and save its value to SignInResponse.Id
@@ -119,33 +121,11 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInR
 	if err != nil {
 		//if an error occured Rollback the transaction
 		tx.Rollback()
-		return fmt.Errorf("Failed executing select new user id query statement." + err.Error())
+		return fmt.Errorf("Failed executing select new user id query statement. " + err.Error())
 	}
 	//commit successful transaction
 	tx.Commit()
 
 	//return without errors
 	return nil
-}
-
-
-//implement function to query the database
-
-func selectUser() {
-	
-}
-
-// multiple possibilities:
-// git parameters for selectUser, to select only some specific
-// or create different functions like:
-func selectAllUser() {
-
-}
-
-func selectUserById() {
-
-}
-
-func selectUserByName() {
-
 }

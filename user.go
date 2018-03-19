@@ -7,21 +7,18 @@ import (
 	"time"
 )
 
-func setupUserRoutes(router *gin.Engine) { // Changed *gin.Router to *gin.Context
+func setupUserRoutes(router *gin.Engine) { 
 
 	//endpoint used to register new users
 	router.POST("/user", registerUser)
 
-	//endpoint used to fetch user on login
-	router.GET("/user", getUser)
-
-	//endpoint used to update user data
-	router.PUT("/user", updateUser)
+	//TODO implement further endpoints
 }
 
 /*
- * register the new user and creates http response containing 
- * the user database id and authentication token.
+ * register the new user and creates the standard akamu http response. 
+ * In case the request is executed successfully the response value is
+ * a json containing the user database id and authentication token.
  */
 func registerUser(ctx *gin.Context) {
 
@@ -54,15 +51,4 @@ func registerUser(ctx *gin.Context) {
 	jsonResponse.Value = &signInResponse
 
     ctx.JSON(http.StatusOK, jsonResponse)
-  
-}
-
-func getUser(ctx *gin.Context) {
-	//do what has to be done for this endpoint
-	//user repository for data retrieval
-}
-
-func updateUser(ctx *gin.Context) {
-	//do what has to be done for this endpoint
-	//user repository for data retrieval
 }

@@ -36,10 +36,10 @@ func main() {
 
 	router.GET("/", getRoot)
 
+	//split up end points in different files for better structure
 	setupUserRoutes(router)
 	setupDuelRoutes(router)
-	//... for each endpoint
-	//function is defined in the file for the endpoint
+	
 
 	// By default it serves on :8080 unless a
 	// PORT environment variable was defined.
