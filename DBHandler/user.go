@@ -19,81 +19,42 @@ import (
 	"fmt"
 )
 import _ "github.com/go-sql-driver/mysql"
-import sq "github.com/Masterminds/squirrel"
-
-//database type is int(11)
-const initialUserScore int = 0
-//the int(10) UN is the avatar id
-const initialUserAvatar uint = 1
-//the int(10) UN is the title id
-const initialUserTitle uint = 1
-//the tinyint(3) UN is 0 for unverified users
-const initialVerifiedStatus uint = 0
-/*
- * Authentication token
- */
-type AuthToken struct{
-    Value string `json:"value" binding:"required"`
-    Expiriation time.Time `json:"expiration" binding:"required"`
-}
+//import sq "github.com/Masterminds/squirrel"
 
 /*
- * This struct encapsulate all data returned for users after they signIn or SignUp.
- */
-type SignInResponse struct{
-	//the user id
-    Id string
-    //the user new authentication token
-    Token AuthToken
-}
-
-/*
- * This struct encapsulate all data required to register a new user.
- */
-type SignUpForm struct{
-    Username string `json:"username" binding:"required"`
-    Password string `json:"password" binding:"required"`
-    Email string `json:"email" binding:"required"`
-    University string `json:"university" binding:"required"`
-    Semester int `json:"semester" binding:"required"`
-}
-
-/*
- * This struct encapsulate the data from an AppUser
- * TODO: Define final struct. At the moment we have differences
- * between the sql database and the yaml specification
+ * the data definition from an user in the sql user table
  */
 type User struct{
-	Id uint
-    Username string `json:"username" binding:"required"`
-    Password string `json:"password" binding:"required"`
-    Email string `json:"email" binding:"required"`
-    University string `json:"university" binding:"required"`
-    Semester int `json:"semester" binding:"required"`
-    TimeRegistered time.Time `json:"semester" binding:"required"`
-    Experience int `json:"semester" binding:"required"`
-    SelectedAvatar int `json:"semester" binding:"required"`
-    Verified int `json:"semester" binding:"required"`
-    IdMongo string `json:"semester" binding:"required"`
-}
+	Id uint32
+	TimeRegistered time.Time
+	Username string
+	Password string
+	Email string
+	Semester int 
+    Experience int
+    SelectedAvatar uint32
+    SelectedTitle uint32
+    University string
+    Verified bool
+} 
 
 /* 
  * adds the new user to the database and saves the respective id value to the signInResponse. 
  * User specific attributes are taken from the signUpForm while non user
  * specific data is hardcoded here. e.G. score is set to 0.
  */
-func InsertUser(signUpForm SignUpForm, signInResponse *SignInResponse) (error){
+func InsertUser(user *User) (id uint32, err error){
 	
 	//Test DB Functionality
     db, err := sql.Open("mysql", "root:13abUtv0@/akamu")
 
     //check for errors opening the database
     if err != nil {
-		return fmt.Errorf("Could not open database connection." + err.Error())
+		return 0, fmt.Errorf("Could not open database connection." + err.Error())
 	}
 	//check for errors connecting to the database
 	if db.Ping() != nil {
-		return fmt.Errorf("Could not open database connection.")
+		return 0, fmt.Errorf("Could not open database connection.")
 	}
 	defer db.Close()
 
@@ -102,68 +63,61 @@ func InsertUser(signUpForm SignUpForm, signInResponse *SignInResponse) (error){
 	//defering a Rollback here sounds strange but is advised at http://go-database-sql.org/prepared.html
 	defer tx.Rollback()
 
-	//prepare querry to insert user
-	insertSQL, _, err := sq.
-    Insert("user").Columns("time_registered", "username", "password","email", "semester", 
-    	"experience", "selected_avatar", "selected_title", "verified", "university").
-    Values("?", "?", "?", "?", "?", "?", "?", "?", "?", "?").
-    ToSql()
-
-    //check for errors creating squirrel sinsert sql statement
-    if err != nil {
-		return fmt.Errorf("Could not create squirrel insert sql statement. " + err.Error())
-	}
-
     //creates the insert sql statement for the transaction
-	stmt, err := tx.Prepare(insertSQL)
+	stmt, err := tx.Prepare("INSERT INTO user (time_registered, username, password, email, semester, experience, selected_avatar, selected_title, verified, university) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	
 	//check for problems with the created sql statement
 	if err != nil {
 		//Rollback transaction in case of error
 		tx.Rollback()
-		return fmt.Errorf("Failed to prepare query statement. " + err.Error())
+		return 0, fmt.Errorf("Failed to prepare query statement. " + err.Error())
 	}
 	defer stmt.Close()
 
 	//execute sql statement to insert the new user into the user table
-	_ , err = stmt.Exec(time.Now(), signUpForm.Username, signUpForm.Password, 
-		signUpForm.Email, signUpForm.Semester, initialUserScore, initialUserAvatar,
-		initialUserTitle, initialVerifiedStatus, signUpForm.University)
+	_ , err = stmt.Exec(user.TimeRegistered, user.Username, user.Password, 
+		user.Email, user.Semester, user.Experience, user.SelectedAvatar,
+		user.SelectedTitle, user.Verified, user.University)
 
 	//check for erros while executing the insert sql statement
 	if err != nil {
 		//if an error occured Rollback the transaction
 		tx.Rollback()
-		return fmt.Errorf("Failed executing insert query statement. " + err.Error())
+		return 0, fmt.Errorf("Failed executing insert query statement. " + err.Error())
 	}
 
-	//prepare querry to get the id using squirrel
-	selectSQL, _, err := sq.Select("iduser").From("user").Where(sq.Eq{"username": "?"}).ToSql()
-
-    //check for errors creating squirrel sql statement
+	//creates the sql statement to get the user id in the same transaction
+	stmt, err = tx.Prepare("SELECT iduser FROM user WHERE username = ?")
+	
+    //check for errors creating the sql statement
     if err != nil {
     	//if an error occured Rollback the transaction
 		tx.Rollback()
-		return fmt.Errorf("Could not create squirrel statement. " + err.Error())
+		return 0, fmt.Errorf("Could not create statement to get user id. " + err.Error())
 	}
 
 	//execute sql query that returns the id from the new user and save its value to SignInResponse.Id
-	err = tx.QueryRow(selectSQL,signUpForm.Username).Scan(&signInResponse.Id)
+	err = stmt.QueryRow(user.Username).Scan(&id)
+	if err != nil {
+		//if an error occured Rollback the transaction
+		tx.Rollback()
+		return 0, fmt.Errorf("Could not get the id from the user created, rolling back transaction. " + err.Error())
+	}
 
 	//check for erros while executing sql statement
 	if err != nil {
 		//if an error occured Rollback the transaction
 		tx.Rollback()
-		return fmt.Errorf("Failed executing select new user id query statement. " + err.Error())
+		return 0, fmt.Errorf("Failed executing select id from new user query statement. " + err.Error())
 	}
 	//commit successful transaction
 	tx.Commit()
 
 	//return without errors
-	return nil
+	return id, nil
 }
 
-func SelectUserById(id int64, user *User) (error) {
+func SelectUserById(id uint32, user *User) (error) {
 
 	//Test DB Functionality
     db, err := sql.Open("mysql", "root:13abUtv0@/akamu")
@@ -179,16 +133,17 @@ func SelectUserById(id int64, user *User) (error) {
 	defer db.Close()
 
 	//create statment to fetch user from db
-	stmt, err := db.Prepare("select * from user where iduser = ?")
+	stmt, err := db.Prepare("select iduser, time_registered, username, password, email, semester, experience, selected_avatar, selected_title, verified, university FROM user WHERE iduser = ?")
 	if err != nil {
 		return fmt.Errorf("Could not prepare sql statement to retrieve user from Datase. " + err.Error())
 	}
 
 	//make sql query and save response to the user pointer
-	err = stmt.QueryRow(id).Scan(user)
+	err = stmt.QueryRow(id).Scan(&user.Id, &user.TimeRegistered, &user.Username, &user.Password, &user.Email, &user.Semester, &user.Experience, &user.SelectedAvatar, &user.SelectedTitle, &user.Verified, &user.University)
 	if err != nil {
 		return fmt.Errorf("Could not retrieve user from Datase. " + err.Error())
 	}
+
 	//return with no errors
 	return nil
 }

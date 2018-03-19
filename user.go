@@ -7,7 +7,6 @@ import (
 	"time"
 	"strconv"
 )
-
 func setupUserRoutes(router *gin.Engine) { 
 
 	//endpoint used to register new users
@@ -25,64 +24,68 @@ func setupUserRoutes(router *gin.Engine) {
  */
 func registerUser(ctx *gin.Context) {
 
-	//The standard akamu json response that will be sent in the http response
-	jsonResponse := AkamuJsonResponse{}
+	//database type is int(11)
+	const initialUserExperience int = 0
+	//the int(10) UN is the avatar id
+	const initialUserAvatar uint32 = 1
+	//the int(10) UN is the title id
+	const initialUserTitle uint32 = 1
+	//the tinyint(3) UN (sql boolean) is 0 for unverified users
+	const initialVerifiedStatus bool = false
+
 	//SignUpForm is the struct that contains all information a user must provide to create a new account.
 	signUpForm := SignUpFormular{}
-	//SignInResponse is the struct that contain all the information given back to user after login or singup
-	signInResponse := DBHandler.SignInResponse{}
 
 	//grabs data from the http post request and bind it to the signUpForm struct
-    ctx.BindJSON(&signUpForm)
+    err := ctx.BindJSON(&signUpForm)
 
-    //insert user into the Akamu sql database
-    err := DBHandler.InsertUser(signUpForm, &signInResponse)
-
+    //test for erros binding http request data to the signUpForm
     if err != nil {
-    	jsonResponse.Status = "error"
-		jsonResponse.Message = "Failed inserting user: " + err.Error()
-		ctx.JSON(http.StatusInternalServerError, jsonResponse)
+		ctx.String(http.StatusBadRequest, "Failed binding payload to signUpForm. " + err.Error())
 		return
 	}
-	
-    //TODO: Generate appropriated token
-	signInResponse.Token = DBHandler.AuthToken{"token value", time.Now()}
 
-	//set values in the akamu standard response json
-	jsonResponse.Status = "success"
-	jsonResponse.Message = "register new user successful"
-	jsonResponse.Value = &signInResponse
+    //creates an empty user struct
+    user := DBHandler.User{TimeRegistered:time.Now(), Username:signUpForm.Username, Password:signUpForm.Password,
+    		Email:signUpForm.Email, Semester:signUpForm.Semester, Experience:initialUserExperience, SelectedAvatar:initialUserAvatar,
+    		SelectedTitle:initialUserTitle, University:signUpForm.University, Verified:initialVerifiedStatus}
+
+    //insert user into the Akamu sql database and returns the id
+    id, err := DBHandler.InsertUser(&user)
+
+    if err != nil {
+		ctx.String(http.StatusInternalServerError, "Failed inserting user: " + err.Error())
+		return
+	}
 
 	//set http response
-    ctx.JSON(http.StatusOK, jsonResponse)
+    ctx.JSON(http.StatusOK, gin.H{"id":id})
 }
 
 func getUser (ctx *gin.Context) {
 
-	//The standard akamu json response that will be sent in the http response
-	jsonResponse := AkamuJsonResponse{}
+    //creates an empty user struct
 	user := DBHandler.User{}
 
 	//TODO: authentification. Perhaps also check if the user id given is the one used to make the token
 
 	//parse the id string into an int id
-	id , _ := strconv.ParseInt(ctx.Param("id"), 10, 0)
+	id , err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 
-	//select user in the database
-    err := DBHandler.SelectUserById(id, &user)
-
+	//test for erros converting the payload to the id
     if err != nil {
-    	jsonResponse.Status = "error"
-		jsonResponse.Message = "Failed retrieving user from database: " + err.Error()
-		ctx.JSON(http.StatusInternalServerError, jsonResponse)
+		ctx.String(http.StatusBadRequest, "Failed getting the user id value from the http request. " + err.Error())
 		return
 	}
 
-	//set values in the akamu standard response json
-	jsonResponse.Status = "success"
-	jsonResponse.Message = "get user by id successful"
-	jsonResponse.Value = &user
+	//select user in the database
+    err = DBHandler.SelectUserById(uint32(id), &user)
+
+    if err != nil {
+		ctx.String(http.StatusInternalServerError, "Failed selecting user from DB. " + err.Error())
+		return
+	}
 
 	//set http response
-    ctx.JSON(http.StatusOK, jsonResponse)
+    ctx.JSON(http.StatusOK, &user)
 }
