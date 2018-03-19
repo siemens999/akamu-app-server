@@ -35,3 +35,22 @@ type QuestionSchema struct {
 	Answer Answer			`json:"answer" binding:"required"`
 	//should be either multiplechoice answer or textinputanswer.
 }
+
+type DuelInfoSchema struct {
+	Id uint32				`json:"id" binding:"required"`
+	UserChallanger UserInfo	`json:"user-challanger" binding:"required"`
+	UserChallanged UserInfo `json:"user-challanged" binding:"required"`
+	Status int				`json:"status" required:"true"`
+	TimeStart string		`json:"time-start" required:"true"`
+	TimeChanged string		`json:"time-changed" required:"true"`
+	TimeEnd string			`json:"time-end"`
+	ScoreChallenger			`json:"score-challanger`
+	ScoreChallenged			`json:"score-challanged`
+	Winner uint32			`json:"winner"`
+}
+
+type DuelSchema {
+	DuelInfoSchema
+	Round1 Round			`json:"round1" required:"true"`
+	Round2 Round			`json:"round2"`
+}
