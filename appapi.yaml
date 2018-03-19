@@ -451,30 +451,16 @@ components:
   schemas:
     input-error:
       description: Thrown upon invalid user input. Usually code 400+.
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
-          default: Invalid input.
+      type: string
+      default: Invalid input.
     internal-error:
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
-          default: Internal server error.
+      description: Error thrown upon server failure.
+      type: string
+      default: Internal server error.
     error:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        message:
-          type: string
-          default: An unexpected error occured
+      description: General error.
+      type: string
+      default: An unexpected error occured
     userinfo:
       type: object
       required:
