@@ -76,10 +76,10 @@ type DuelInfoSchema struct {
 	Winner uint32                   `json:"winner"`
 }
 
-type DuelSchema {
+type DuelSchema struct {
 	DuelInfoSchema
-	Round1 Round `json:"round1" required:"true"`
-	Round2 Round `json:"round2"`
+	Round1 RoundSchema `json:"round1" required:"true"`
+	Round2 RoundSchema `json:"round2"`
 }
 
 type MultipleChoiceAnswerItemSchema struct {

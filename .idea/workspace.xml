@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="516e63ee-04b7-45f0-8bdc-270bfd0add56" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/schemas.go" afterPath="$PROJECT_DIR$/schemas.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,8 +42,8 @@
           <file leaf-file-name="schemas.go" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/schemas.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="63">
-                  <caret line="78" column="17" lean-forward="true" selection-start-line="78" selection-start-column="17" selection-end-line="78" selection-end-column="17" />
+                <state relative-caret-position="519">
+                  <caret line="85" column="36" lean-forward="false" selection-start-line="85" selection-start-column="36" selection-end-line="85" selection-end-column="36" />
                   <folding />
                 </state>
               </provider>
@@ -79,7 +78,7 @@
           <file leaf-file-name="appapi.yaml" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/appapi.yaml">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1481">
+                <state relative-caret-position="158">
                   <caret line="611" column="4" lean-forward="true" selection-start-line="611" selection-start-column="4" selection-end-line="611" selection-end-column="4" />
                   <folding />
                 </state>
@@ -379,7 +378,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/appapi.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1481">
+        <state relative-caret-position="158">
           <caret line="611" column="4" lean-forward="true" selection-start-line="611" selection-start-column="4" selection-end-line="611" selection-end-column="4" />
           <folding />
         </state>
@@ -387,8 +386,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/schemas.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="78" column="17" lean-forward="true" selection-start-line="78" selection-start-column="17" selection-end-line="78" selection-end-column="17" />
+        <state relative-caret-position="519">
+          <caret line="85" column="36" lean-forward="false" selection-start-line="85" selection-start-column="36" selection-end-line="85" selection-end-column="36" />
           <folding />
         </state>
       </provider>
