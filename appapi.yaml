@@ -531,19 +531,17 @@ components:
           required: true
           type: object
           $ref: '#/components/schemas/pool'
-        question1:
-          type: object
-          properties:
-            question:
-              required: true
-              type: object
-              $ref: '#/components/schemas/question'
-            answer-challanger:
-              $ref: '#/components'
-        question2:
-          required: false
-          type: object
-          $ref: '#/components/schemas/question'
+        questions:
+          type: array
+          items:
+            type: object
+            properties:
+              question:
+                required: true
+                type: object
+                $ref: '#/components/schemas/question'
+              answer-opponent:
+                $ref: '#/components/schemas/answer'
     duelinfo:
       type: object
       properties:
