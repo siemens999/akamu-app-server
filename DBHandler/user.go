@@ -2,14 +2,19 @@ package DBHandler
 
 /*
  * encapsulates all functions that interact with database user objects.
- * should not use classes such as "net/http". http logic should not be 
- * implemented here.
+ *
+ * http logic should not be implemented here. e.G. functions that require "net/http".
+ *
+ * it is important to understand how transactions, connection pools and other sql db
+ * concepts work to avoid serious efficience problems. Avoid coding database interaction 
+ * you do not fully understand. 
+ *
+ * very good tutorial to sql functionality http://mindbowser.com/golang-go-database-sql/
  */
 
 
 import (
 	"database/sql"
-	"github.com/gin-gonic/gin"
 	"time"
 	"fmt"
 )
@@ -53,12 +58,31 @@ type SignUpForm struct{
     Semester int `json:"semester" binding:"required"`
 }
 
+/*
+ * This struct encapsulate the data from an AppUser
+ * TODO: Define final struct. At the moment we have differences
+ * between the sql database and the yaml specification
+ */
+type User struct{
+	Id uint
+    Username string `json:"username" binding:"required"`
+    Password string `json:"password" binding:"required"`
+    Email string `json:"email" binding:"required"`
+    University string `json:"university" binding:"required"`
+    Semester int `json:"semester" binding:"required"`
+    TimeRegistered time.Time `json:"semester" binding:"required"`
+    Experience int `json:"semester" binding:"required"`
+    SelectedAvatar int `json:"semester" binding:"required"`
+    Verified int `json:"semester" binding:"required"`
+    IdMongo string `json:"semester" binding:"required"`
+}
+
 /* 
  * adds the new user to the database and saves the respective id value to the signInResponse. 
  * User specific attributes are taken from the signUpForm while non user
  * specific data is hardcoded here. e.G. score is set to 0.
  */
-func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInResponse) (error){
+func InsertUser(signUpForm SignUpForm, signInResponse *SignInResponse) (error){
 	
 	//Test DB Functionality
     db, err := sql.Open("mysql", "root:13abUtv0@/akamu")
@@ -136,5 +160,35 @@ func InsertUser(ctx *gin.Context, signUpForm SignUpForm, signInResponse *SignInR
 	tx.Commit()
 
 	//return without errors
+	return nil
+}
+
+func SelectUserById(id int64, user *User) (error) {
+
+	//Test DB Functionality
+    db, err := sql.Open("mysql", "root:13abUtv0@/akamu")
+
+    //check for errors opening the database
+    if err != nil {
+		return fmt.Errorf("Could not open database connection." + err.Error())
+	}
+	//check for errors connecting to the database
+	if db.Ping() != nil {
+		return fmt.Errorf("Could not open database connection.")
+	}
+	defer db.Close()
+
+	//create statment to fetch user from db
+	stmt, err := db.Prepare("select * from user where iduser = ?")
+	if err != nil {
+		return fmt.Errorf("Could not prepare sql statement to retrieve user from Datase. " + err.Error())
+	}
+
+	//make sql query and save response to the user pointer
+	err = stmt.QueryRow(id).Scan(user)
+	if err != nil {
+		return fmt.Errorf("Could not retrieve user from Datase. " + err.Error())
+	}
+	//return with no errors
 	return nil
 }
