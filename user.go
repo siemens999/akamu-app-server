@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"./DBHandler"
 	"net/http"
-	//"encoding/json"
 	"time"
 )
 
@@ -26,6 +25,8 @@ func setupUserRoutes(router *gin.Engine) { // Changed *gin.Router to *gin.Contex
  */
 func registerUser(ctx *gin.Context) {
 
+	//The standard akamu json response that will be sent in the http response
+	jsonResponse := AkamuJsonResponse{}
 	//SignUpForm is the struct that contains all information a user must provide to create a new account.
 	var signUpForm DBHandler.SignUpForm
 	//SignInResponse is the struct that contain all the information given back to user after login or singup
@@ -38,7 +39,9 @@ func registerUser(ctx *gin.Context) {
     err := DBHandler.InsertUser(ctx, signUpForm, &signInResponse)
 
     if err != nil {
-		ctx.String(http.StatusInternalServerError, "Failed inserting user:" + err.Error())
+    	jsonResponse.Status = "error"
+		jsonResponse.Message = "Failed inserting user:" + err.Error()
+		ctx.JSON(http.StatusInternalServerError, jsonResponse)
 		return
 	}
 	
@@ -46,17 +49,11 @@ func registerUser(ctx *gin.Context) {
     //TODO: Generate appropriated token
 	signInResponse.Token = DBHandler.AuthToken{"token value", time.Now()}
 
-	//build json
-	//res , err := json.Marshal(&signInResponse)
+	jsonResponse.Status = "success"
+	jsonResponse.Message = "register new user successful"
+	jsonResponse.Value = &signInResponse
 
-	//if err != nil {
-	//	ctx.String(http.StatusInternalServerError, "Failed to create json response:" + err.Error())
-	//	return
-	//}
-
-	//ctx.JSON(http.StatusOK, string(res))
-
-    ctx.JSON(http.StatusOK, signInResponse)
+    ctx.JSON(http.StatusOK, jsonResponse)
   
 }
 
