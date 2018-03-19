@@ -2,6 +2,13 @@ package main
 
 //import "github.com/golang/protobuf/protoc-gen-go/plugin"
 
+type SignUpFormular struct {
+	Name string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+    Email string `json:"email" binding:"required"`
+    University string `json:"university" binding:"required"`
+    Semester string `json:"semester" binding:"required"`
+}
 type UserInfoSchema struct {
 	Id uint32       `json:"id" binding:"required"`
 	Name string     `json:"name" binding:"required"`
