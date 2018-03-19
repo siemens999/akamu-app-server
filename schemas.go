@@ -43,3 +43,7 @@ type MultipleChoiceAnswerItemSchema struct {
 	Image uint32 		`json:"image"`
 	Text string 		`json:"text" binding:"required"`
 }
+
+type TextInputAnswer string
+
+// type Answer struct {} // TODO: implement this!
