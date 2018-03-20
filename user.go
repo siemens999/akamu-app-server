@@ -12,7 +12,9 @@ func setupUserRoutes(router *gin.Engine) {
 	//endpoint used to register new users
 	router.POST("/user", registerUser)
 	//endpoint used to fetch the user data
-	router.GET("/user/:id", getUser)
+	router.GET("/user/:id", getUserByID)
+	//endpoint used to get all users
+	router.GET("/user", getAllUsers)
 
 	//TODO implement further endpoints
 }
@@ -39,7 +41,7 @@ func registerUser(ctx *gin.Context) {
 	//grabs data from the http post request and bind it to the signUpForm struct
     err := ctx.BindJSON(&signUpForm)
 
-    //test for erros binding http request data to the signUpForm
+    //test for errors binding http request data to the signUpForm
     if err != nil {
 		ctx.String(http.StatusBadRequest, "Failed binding payload to signUpForm. " + err.Error())
 		return
@@ -62,12 +64,7 @@ func registerUser(ctx *gin.Context) {
     ctx.JSON(http.StatusOK, gin.H{"id":id})
 }
 
-func getUser (ctx *gin.Context) {
-
-    //creates an empty user struct
-	user := DBHandler.User{}
-
-	//TODO: authentification. Perhaps also check if the user id given is the one used to make the token
+func getUserByID (ctx *gin.Context) {
 
 	//parse the id string into an int id
 	id , err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -79,7 +76,7 @@ func getUser (ctx *gin.Context) {
 	}
 
 	//select user in the database
-    err = DBHandler.SelectUserById(uint32(id), &user)
+    user, err := DBHandler.SelectUserById(uint32(id))
 
     if err != nil {
 		ctx.String(http.StatusInternalServerError, "Failed selecting user from DB. " + err.Error())
@@ -88,4 +85,18 @@ func getUser (ctx *gin.Context) {
 
 	//set http response
     ctx.JSON(http.StatusOK, &user)
+}
+
+func getAllUsers (ctx *gin.Context) {
+
+	//select user in the database
+	users, err := DBHandler.SelectAllUsers()
+
+	if err != nil {
+		ctx.String(http.StatusInternalServerError, "Failed selecting user from DB. " + err.Error())
+		return
+	}
+
+	//set http response
+	ctx.JSON(http.StatusOK, &users)
 }

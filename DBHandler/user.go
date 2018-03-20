@@ -18,7 +18,13 @@ import (
 	"time"
 	"fmt"
 )
-import _ "github.com/go-sql-driver/mysql"
+import (
+	_ "github.com/go-sql-driver/mysql"
+	//"net/http"
+	//"os/user"
+	//"log"
+	//"os/user"
+)
 //import sq "github.com/Masterminds/squirrel"
 
 /*
@@ -117,33 +123,83 @@ func InsertUser(user *User) (id uint32, err error){
 	return id, nil
 }
 
-func SelectUserById(id uint32, user *User) (error) {
+func SelectUserById(id uint32) (User, error) {
 
 	//Test DB Functionality
     db, err := sql.Open("mysql", "root:13abUtv0@/akamu?parseTime=true")
 
     //check for errors opening the database
     if err != nil {
-		return fmt.Errorf("Could not open database connection." + err.Error())
+		return User{}, fmt.Errorf("Could not open database connection." + err.Error())
 	}
 	//check for errors connecting to the database
 	if db.Ping() != nil {
-		return fmt.Errorf("Could not open database connection.")
+		return User{}, fmt.Errorf("Could not open database connection.")
 	}
 	defer db.Close()
 
-	//create statment to fetch user from db
+	//create statement to fetch the selected user from db
 	stmt, err := db.Prepare("select iduser, time_registered, username, password, email, semester, experience, selected_avatar, selected_title, verified, university FROM user WHERE iduser = ?")
 	if err != nil {
-		return fmt.Errorf("Could not prepare sql statement to retrieve user from Datase. " + err.Error())
+		return User{}, fmt.Errorf("Could not prepare sql statement to retrieve selectedUser from Datase. " + err.Error())
 	}
 
-	//make sql query and save response to the user pointer
-	err = stmt.QueryRow(id).Scan(&user.Id, &user.TimeRegistered, &user.Username, &user.Password, &user.Email, &user.Semester, &user.Experience, &user.SelectedAvatar, &user.SelectedTitle, &user.Verified, &user.University)
+	selectedUser := User{}
+	//make sql query and save response to the selected user pointer
+	err = stmt.QueryRow(id).Scan(&selectedUser.Id, &selectedUser.TimeRegistered, &selectedUser.Username, &selectedUser.Password, &selectedUser.Email, &selectedUser.Semester, &selectedUser.Experience, &selectedUser.SelectedAvatar, &selectedUser.SelectedTitle, &selectedUser.Verified, &selectedUser.University)
 	if err != nil {
-		return fmt.Errorf("Could not retrieve user from Datase. " + err.Error())
+		return User{}, fmt.Errorf("Could not retrieve user from Datase. " + err.Error())
 	}
 
 	//return with no errors
-	return nil
+	return selectedUser, nil
+}
+
+
+func SelectAllUsers() ([]User, error) {
+
+	//Test DB Functionality
+	db, err := sql.Open("mysql", "root:13abUtv0@/akamu?parseTime=true")
+
+	//check for errors opening the database
+	if err != nil {
+		return nil,  fmt.Errorf("Could not open database connection." + err.Error())
+	}
+	//check for errors connecting to the database
+	if db.Ping() != nil {
+		return nil, fmt.Errorf("Could not open database connection. ")
+	}
+	defer db.Close()
+
+	//create statement to fetch user from db
+	stmt, err := db.Prepare("select iduser, time_registered, username, password, email, semester, experience, selected_avatar, selected_title, verified, university FROM user")
+	if err != nil {
+		return nil, fmt.Errorf("Could not prepare sql statement to retrieve user from Datase. " + err.Error())
+	}
+
+	//make sql query and save response to the user pointer
+	rows, err := stmt.Query()
+
+	if err != nil {
+		return  nil, fmt.Errorf("Could not create statement to get user id. " + err.Error())
+	}
+	defer rows.Close()
+
+	users := make([]User, 100, 300)
+	var counter int = 0
+	for rows.Next() {
+		err = rows.Scan(&(users[counter].Id), &(users[counter].TimeRegistered), &(users[counter].Username),
+			&(users[counter].Password), &(users[counter].Email), &(users[counter].Semester),
+			&(users[counter].Experience), &(users[counter].SelectedAvatar), &(users[counter].SelectedTitle),
+			&(users[counter].Verified), &(users[counter].University))
+		if err != nil {
+			return  nil, fmt.Errorf("Could not scan db values into user list. " + err.Error())
+		}
+		counter ++
+		fmt.Println(users[counter-1].Password)
+	}
+
+
+	//return with no errors
+	return users, nil
 }
