@@ -120,7 +120,7 @@ func InsertUser(user *User) (id uint32, err error){
 func SelectUserById(id uint32, user *User) (error) {
 
 	//Test DB Functionality
-    db, err := sql.Open("mysql", "root:13abUtv0@/akamu")
+    db, err := sql.Open("mysql", "root:13abUtv0@/akamu?parseTime=true")
 
     //check for errors opening the database
     if err != nil {
