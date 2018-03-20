@@ -36,16 +36,22 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/user'
+        '400':
+          description: Bad Request
+          content:
+            application/string:
+              schema:
+                $ref: '#/components/schemas/request-error'
         '500':
           description: The server cannot deliver due to an internal error.
           content:
-            application/json:
+            application/string:
               schema:
                 $ref: '#/components/schemas/internal-error'
         default:
           description: Some unexpected error.
           content:
-            application/json:
+            application/string:
               schema:
                 $ref: '#/components/schemas/error'
     post:
@@ -305,11 +311,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/duelinfo'
         '400':
-          description: Query was invlid.
+          description: Bad request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/input-error'
+                $ref: '#/components/schemas/request-error'
         '403':
           description: The user tried to retrieve duels of another user.
         '404':
