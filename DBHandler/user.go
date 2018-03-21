@@ -29,6 +29,7 @@ import (
 
 /*
  * the data definition from an user in the sql user table
+ * (Does not include mongodb ids)
  */
 type User struct{
 	Id uint32
@@ -45,9 +46,8 @@ type User struct{
 } 
 
 /* 
- * adds the new user to the database and saves the respective id value to the signInResponse. 
- * User specific attributes are taken from the signUpForm while non user
- * specific data is hardcoded here. e.G. score is set to 0.
+ * adds the new user to the database and returns the
+ * user database id
  */
 func InsertUser(user *User) (id uint32, err error){
 	
@@ -85,9 +85,9 @@ func InsertUser(user *User) (id uint32, err error){
 		user.Email, user.Semester, user.Experience, user.SelectedAvatar,
 		user.SelectedTitle, user.Verified, user.University)
 
-	//check for erros while executing the insert sql statement
+	//check for errors while executing the insert sql statement
 	if err != nil {
-		//if an error occured Rollback the transaction
+		//if an error occurred Rollback the transaction
 		tx.Rollback()
 		return 0, fmt.Errorf("Failed executing insert query statement. " + err.Error())
 	}
@@ -123,9 +123,13 @@ func InsertUser(user *User) (id uint32, err error){
 	return id, nil
 }
 
+/*
+ * selects the user with the given id from the user table and
+ * returns the respective user struct.
+ */
 func SelectUserById(id uint32) (User, error) {
 
-	//Test DB Functionality
+	//Test DB Functionality, "?parseTime=true" allows to read time from database
     db, err := sql.Open("mysql", "root:13abUtv0@/akamu?parseTime=true")
 
     //check for errors opening the database
@@ -155,10 +159,13 @@ func SelectUserById(id uint32) (User, error) {
 	return selectedUser, nil
 }
 
-
+/*
+ * selects all users from the user table and returns the
+ * slice containing all the users
+ */
 func SelectAllUsers() ([]User, error) {
 
-	//Test DB Functionality
+	//Test DB Functionality, "?parseTime=true" allows to read time from database
 	db, err := sql.Open("mysql", "root:13abUtv0@/akamu?parseTime=true")
 
 	//check for errors opening the database
@@ -177,7 +184,7 @@ func SelectAllUsers() ([]User, error) {
 		return nil, fmt.Errorf("Could not prepare sql statement to retrieve user from Datase. " + err.Error())
 	}
 
-	//make sql query and save response to the user pointer
+	//execute sql query
 	rows, err := stmt.Query()
 
 	if err != nil {
@@ -185,20 +192,22 @@ func SelectAllUsers() ([]User, error) {
 	}
 	defer rows.Close()
 
-	users := make([]User, 100, 300)
-	var counter int = 0
+	//creates the list of users that will be returned
+	var users []User
+	//creates a temporary user struct to store data from each row
+	var tempUser User
+
+	//iterates through each row returned by the query
 	for rows.Next() {
-		err = rows.Scan(&(users[counter].Id), &(users[counter].TimeRegistered), &(users[counter].Username),
-			&(users[counter].Password), &(users[counter].Email), &(users[counter].Semester),
-			&(users[counter].Experience), &(users[counter].SelectedAvatar), &(users[counter].SelectedTitle),
-			&(users[counter].Verified), &(users[counter].University))
+		err = rows.Scan(&(tempUser.Id), &(tempUser.TimeRegistered), &(tempUser.Username),
+			&(tempUser.Password), &(tempUser.Email), &(tempUser.Semester),
+			&(tempUser.Experience), &(tempUser.SelectedAvatar), &(tempUser.SelectedTitle),
+			&(tempUser.Verified), &(tempUser.University))
 		if err != nil {
 			return  nil, fmt.Errorf("Could not scan db values into user list. " + err.Error())
 		}
-		counter ++
-		fmt.Println(users[counter-1].Password)
+		users = append(users, tempUser)
 	}
-
 
 	//return with no errors
 	return users, nil
