@@ -20,6 +20,18 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 CREATE SCHEMA IF NOT EXISTS `akamu` DEFAULT CHARACTER SET utf8mb4 ;
 USE `akamu` ;
 
+
+-- -----------------------------------------------------
+-- Table `akamu`.`university`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `akamu`.`university`
+(
+ `iduniversity` INT PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(127),
+  `city` VARCHAR(45),
+  `country` VARCHAR(45)
+);
+
 -- -----------------------------------------------------
 -- Table `akamu`.`subject`
 -- -----------------------------------------------------
@@ -31,12 +43,13 @@ CREATE TABLE IF NOT EXISTS `akamu`.`subject` (
   `semester` INT NULL,
   `department` VARCHAR(45) NULL,
   `university` VARCHAR(45) NULL,
+  `description` VARCHAR(511) NULL,
   `idmongo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idsubject`),
   UNIQUE INDEX `idsubject_UNIQUE` (`idsubject` ASC),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
-  UNIQUE INDEX `code_UNIQUE` (`code` ASC),
-  UNIQUE INDEX `shortform_UNIQUE` (`shortform` ASC),
+  INDEX `name_UNIQUE` (`name` ASC),
+  INDEX `code_UNIQUE` (`code` ASC),
+  INDEX `shortform_UNIQUE` (`shortform` ASC),
   UNIQUE INDEX `idmongo_UNIQUE` (`idmongo` ASC))
 ENGINE = InnoDB;
 
@@ -49,8 +62,9 @@ CREATE TABLE IF NOT EXISTS `akamu`.`maintainer` (
   `login` VARCHAR(45) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
   `level` INT NOT NULL,
-  `name` VARCHAR(45) CHARACTER SET 'utf8mb4' NOT NULL,
+  `name` VARCHAR(45) CHARACTER SET 'utf8mb4',
   `subject` INT UNSIGNED NULL,
+  `university` INT UNSIGNED NOT NULL,
   `email` VARCHAR(45) NULL,
   `idmongo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idmaintainer`),
@@ -59,10 +73,15 @@ CREATE TABLE IF NOT EXISTS `akamu`.`maintainer` (
   INDEX `fk_maintainer_1_idx` (`subject` ASC),
   UNIQUE INDEX `idmongo_UNIQUE` (`idmongo` ASC),
   CONSTRAINT `fk_maintainer_subject`
-    FOREIGN KEY (`subject`)
-    REFERENCES `akamu`.`subject` (`idsubject`)
+  FOREIGN KEY (`subject`)
+  REFERENCES `akamu`.`subject` (`idsubject`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_maintainer_university`
+  FOREIGN KEY (`university`)
+  REFERENCES `akamu`.`university`(`iduniversity`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -86,15 +105,14 @@ CREATE TABLE IF NOT EXISTS `akamu`.`question` (
   `text` TEXT NULL,
   `image` INT UNSIGNED NULL,
   `subject` INT UNSIGNED NULL,
-  `idmongo` VARCHAR(45) NOT NULL,
+  `idmongo` VARCHAR(45) NULL,
   `reviewed` TINYINT NOT NULL,
   `verified` TINYINT NOT NULL,
+  `published` TINYINT NOT NULL,
   PRIMARY KEY (`idquestion`),
   UNIQUE INDEX `idquestion_UNIQUE` (`idquestion` ASC),
   INDEX `fk_question_author_idx` (`author` ASC),
   INDEX `fk_question_subject_idx` (`subject` ASC),
-  INDEX `fk_question_image_idx` (`image` ASC),
-  UNIQUE INDEX `idmongo_UNIQUE` (`idmongo` ASC),
   CONSTRAINT `fk_question_author`
     FOREIGN KEY (`author`)
     REFERENCES `akamu`.`maintainer` (`idmaintainer`)
@@ -190,12 +208,19 @@ CREATE TABLE IF NOT EXISTS `akamu`.`pool` (
   `name` VARCHAR(45) NOT NULL,
   `code` VARCHAR(45) NOT NULL,
   `shortform` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(511) NULL,
+  `image` INT UNSIGNED NOT NULL,
   `idmongo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idpool`),
   UNIQUE INDEX `idpool_UNIQUE` (`idpool` ASC),
   UNIQUE INDEX `code_UNIQUE` (`code` ASC),
   UNIQUE INDEX `shortform_UNIQUE` (`shortform` ASC),
-  UNIQUE INDEX `idmongo_UNIQUE` (`idmongo` ASC))
+  CONSTRAINT `fk_pool_image`
+  FOREIGN KEY (`image`)
+  REFERENCES `akamu`.`image` (`idimage`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+
 ENGINE = InnoDB;
 
 
@@ -234,7 +259,8 @@ CREATE TABLE IF NOT EXISTS `akamu`.`classicduel` (
   `pool1` INT UNSIGNED NOT NULL,
   `pool2` INT UNSIGNED NOT NULL,
   `status` INT(1) NOT NULL,
-  `time_start` DATETIME NOT NULL,time_registered
+  `time_start` DATETIME NOT NULL,
+  'time_registered' DATETIME NOT NULL,
   `time_changed` DATETIME NOT NULL,
   `time_end` DATETIME NULL,
   `score_challanger` INT NULL,
@@ -325,8 +351,8 @@ CREATE TABLE IF NOT EXISTS `akamu`.`answer` (
   `idanswer` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `question` INT UNSIGNED NOT NULL,
   `type` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`question`),
-  UNIQUE INDEX `isanswer_UNIQUE` (`idanswer` ASC),
+  PRIMARY KEY (`idanswer`),
+  UNIQUE INDEX `isanswer_UNIQUE` (`question` ASC),
   CONSTRAINT `fk_answer_question`
     FOREIGN KEY (`question`)
     REFERENCES `akamu`.`question` (`idquestion`)
@@ -409,6 +435,41 @@ CREATE TABLE IF NOT EXISTS `akamu`.`answertype` (
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`idanswertype`),
   UNIQUE INDEX `idanswertype_UNIQUE` (`idanswertype` ASC))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `akamu`.`flashcard`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `akamu`.`flashcard` (
+  `idflashcard` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `author` INT UNSIGNED NULL,
+  `subject` INT UNSIGNED NULL,
+  `creationdate` DATETIME NOT NULL,
+  `lastmodified`DATETIME NOT NULL,
+  `version` INT UNSIGNED NOT NULL,
+  `fronttext` VARCHAR(1023) NOT NULL,
+  `backtext` VARCHAR(1023) NOT NULL,
+  `frontimage` INT UNSIGNED NULL,
+  `backimage` INT UNSIGNED NULL,
+  PRIMARY KEY (`idflashcard`),
+  INDEX `author_UNIQUE` (`author` ASC),
+  INDEX `subject_UNIQUE` (`subject` ASC))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `akamu`.`traininglist`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `akamu`.`traininglist` (
+  `author` INT UNSIGNED NULL,
+  `subject` INT UNSIGNED NULL,
+  `creationdate` DATETIME NOT NULL,
+  `lastmodified`DATETIME NOT NULL,
+  `version` INT UNSIGNED DEFAULT 0,
+  `upvotes` INT UNSIGNED DEFAULT 0,
+  `downvotes` INT UNSIGNED DEFAULT 0,
+  PRIMARY KEY (`author`,`subject`),
+  INDEX `author_UNIQUE` (`author` ASC, `subject` ASC),
+  INDEX `subject_UNIQUE` (`subject` ASC, `author` ASC))
 ENGINE = InnoDB;
 
 INSERT INTO `answertype` (`name`) VALUES ('option');

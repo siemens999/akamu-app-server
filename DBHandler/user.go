@@ -6,7 +6,7 @@ package DBHandler
  * http logic should not be implemented here. e.G. functions that require "net/http".
  *
  * it is important to understand how transactions, connection pools and other sql db
- * concepts work to avoid serious efficience problems. Avoid coding database interaction 
+ * concepts work to avoid serious efficiency problems. Avoid coding database interaction
  * you do not fully understand. 
  *
  * very good tutorial to sql functionality http://mindbowser.com/golang-go-database-sql/
