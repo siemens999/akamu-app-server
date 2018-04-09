@@ -24,12 +24,12 @@ USE `akamu` ;
 -- -----------------------------------------------------
 -- Table `akamu`.`university`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `akamu`.`university`
-(
- `iduniversity` INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `akamu`.`university` (
+ `iduniversity` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(127),
   `city` VARCHAR(45),
-  `country` VARCHAR(45)
+  `country` VARCHAR(45),
+  PRIMARY KEY (`iduniversity`)
 );
 
 -- -----------------------------------------------------
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `akamu`.`subject` (
   `shortform` VARCHAR(45) NOT NULL,
   `semester` INT NULL,
   `department` VARCHAR(45) NULL,
-  `university` VARCHAR(45) NULL,
+  `university` INT UNSIGNED NULL,
   `description` VARCHAR(511) NULL,
   `idmongo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idsubject`),
@@ -50,7 +50,12 @@ CREATE TABLE IF NOT EXISTS `akamu`.`subject` (
   INDEX `name_UNIQUE` (`name` ASC),
   INDEX `code_UNIQUE` (`code` ASC),
   INDEX `shortform_UNIQUE` (`shortform` ASC),
-  UNIQUE INDEX `idmongo_UNIQUE` (`idmongo` ASC))
+  UNIQUE INDEX `idmongo_UNIQUE` (`idmongo` ASC),
+  CONSTRAINT `fk_subject_university`
+  FOREIGN KEY (`university`)
+  REFERENCES `akamu`.`university`(`iduniversity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -183,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `akamu`.`user` (
   `idmongo` VARCHAR(45),
   PRIMARY KEY (`iduser`),
   UNIQUE INDEX `iduser_UNIQUE` (`iduser` ASC),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   INDEX `fk_user_avatar_idx` (`selected_avatar` ASC),
   INDEX `fk_user_title_idx` (`selected_title` ASC),
@@ -260,7 +265,7 @@ CREATE TABLE IF NOT EXISTS `akamu`.`classicduel` (
   `pool2` INT UNSIGNED NOT NULL,
   `status` INT(1) NOT NULL,
   `time_start` DATETIME NOT NULL,
-  'time_registered' DATETIME NOT NULL,
+  `time_registered`DATETIME NOT NULL,
   `time_changed` DATETIME NOT NULL,
   `time_end` DATETIME NULL,
   `score_challanger` INT NULL,
@@ -453,15 +458,35 @@ CREATE TABLE IF NOT EXISTS `akamu`.`flashcard` (
   `backimage` INT UNSIGNED NULL,
   PRIMARY KEY (`idflashcard`),
   INDEX `author_UNIQUE` (`author` ASC),
-  INDEX `subject_UNIQUE` (`subject` ASC))
+  INDEX `subject_UNIQUE` (`subject` ASC),
+  CONSTRAINT `fk_flashcard_subject`
+  FOREIGN KEY (`subject`)
+  REFERENCES `akamu`.`subject` (`idsubject`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_flashcard_author`
+  FOREIGN KEY (`author`)
+  REFERENCES `akamu`.`user` (`iduser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_flashcard_frontimage`
+  FOREIGN KEY (`frontimage`)
+  REFERENCES `akamu`.`image` (`idimage`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_flashcard_backimage`
+  FOREIGN KEY (`backimage`)
+  REFERENCES `akamu`.`image` (`idimage`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `akamu`.`traininglist`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `akamu`.`traininglist` (
-  `author` INT UNSIGNED NULL,
-  `subject` INT UNSIGNED NULL,
+  `author` INT UNSIGNED NOT NULL,
+  `subject` INT UNSIGNED NOT NULL,
   `creationdate` DATETIME NOT NULL,
   `lastmodified`DATETIME NOT NULL,
   `version` INT UNSIGNED DEFAULT 0,
@@ -469,7 +494,17 @@ CREATE TABLE IF NOT EXISTS `akamu`.`traininglist` (
   `downvotes` INT UNSIGNED DEFAULT 0,
   PRIMARY KEY (`author`,`subject`),
   INDEX `author_UNIQUE` (`author` ASC, `subject` ASC),
-  INDEX `subject_UNIQUE` (`subject` ASC, `author` ASC))
+  INDEX `subject_UNIQUE` (`subject` ASC, `author` ASC),
+  CONSTRAINT `fk_traininglist_subject`
+  FOREIGN KEY (`subject`)
+  REFERENCES `akamu`.`subject` (`idsubject`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+  CONSTRAINT `fk_traininglist_author`
+  FOREIGN KEY (`author`)
+  REFERENCES `akamu`.`user` (`iduser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 INSERT INTO `answertype` (`name`) VALUES ('option');

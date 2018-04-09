@@ -14,6 +14,7 @@ func main() {
 	//split up end points in different files for better structure
 	setupUserRoutes(router)
 	setupDuelRoutes(router)
+	setupFlashcardRoutes(router)
 	
 
 	// By default it serves on :8080 unless a
