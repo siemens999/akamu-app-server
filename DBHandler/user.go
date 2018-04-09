@@ -138,7 +138,7 @@ func SelectUserById(id uint32) (User, error) {
 	}
 	//check for errors connecting to the database
 	if db.Ping() != nil {
-		return User{}, fmt.Errorf("Could not open database connection.")
+		return User{}, fmt.Errorf("Could not open database connection. ")
 	}
 	defer db.Close()
 
@@ -188,7 +188,7 @@ func SelectAllUsers() ([]User, error) {
 	rows, err := stmt.Query()
 
 	if err != nil {
-		return  nil, fmt.Errorf("Could not create statement to get user id. " + err.Error())
+		return  nil, fmt.Errorf("Could not create statement to get the lsit of users from DB. " + err.Error())
 	}
 	defer rows.Close()
 

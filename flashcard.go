@@ -8,8 +8,11 @@ import (
 )
 func setupFlashcardRoutes(router *gin.Engine) {
 
-	//endpoint used to register new users
+	//endpoint used to create new flashcards
 	router.POST("/flashcard", createCard)
+
+	//endpoint used get a training list of flashcards
+	router.GET("/flashcard", getCards)
 
 }
 
@@ -27,7 +30,7 @@ func createCard (ctx *gin.Context) {
 		return
 	}
 
-	//insert flashcard into the Akamu sql database and returns the id
+	//insert flashcard into the Akamu sql database and returns it's database id
 	id, err := DBHandler.InsertFlashcard(&card)
 
 	if err != nil {
@@ -37,4 +40,19 @@ func createCard (ctx *gin.Context) {
 
 	//set http response
 	ctx.JSON(http.StatusOK, gin.H{"id":id})
+}
+
+//TODO: define who author id and subject id should be passed here and how the number of flashcard returned should be limited
+func getCards (ctx *gin.Context) {
+
+	//select user in the database
+	cards, err := DBHandler.SelectFlashCards(1,1)
+
+	if err != nil {
+		ctx.String(http.StatusInternalServerError, "Failed selecting user from DB. " + err.Error())
+		return
+	}
+
+	//set http response
+	ctx.JSON(http.StatusOK, &cards)
 }

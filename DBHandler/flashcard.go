@@ -124,3 +124,59 @@ func InsertFlashcard(card *Flashcard) (id uint32, err error){
 	//return without errors
 	return id, nil
 }
+
+
+/*
+ * selects all cards from the given user and subject
+ * and return the slice containing all the cards
+ */
+func SelectFlashCards(authorid uint32, subjectid uint32) ([]Flashcard, error) {
+
+	//Test DB Functionality, "?parseTime=true" allows to read time from database
+	db, err := sql.Open("mysql", "root:13abUtv0@/akamu?parseTime=true")
+
+	//check for errors opening the database
+	if err != nil {
+		return nil,  fmt.Errorf("Could not open database connection." + err.Error())
+	}
+
+	//check for errors connecting to the database
+	if db.Ping() != nil {
+		return nil, fmt.Errorf("Could not open database connection. ")
+	}
+	defer db.Close()
+
+	//create statement to fetch the desired flashcards from db
+	stmt, err := db.Prepare("SELECT * FROM flashcard WHERE author=? AND subject=?")
+	if err != nil {
+		return nil, fmt.Errorf("Could not prepare sql statement to retrieve user from Datase. " + err.Error())
+	}
+
+	//execute sql query
+	rows, err := stmt.Query(authorid, subjectid)
+
+	if err != nil {
+		return  nil, fmt.Errorf("Could not create statement to get the list of flashcards. " + err.Error())
+	}
+	defer rows.Close()
+
+	//creates the list of flashcards that will be returned
+	var cards []Flashcard
+	//creates a temporary flashcard struct to store data from each row
+	var tempCard Flashcard
+
+	//iterates through each row returned by the query
+	for rows.Next() {
+		err = rows.Scan(&(tempCard.Id), &(tempCard.Author), &(tempCard.Subject),
+			&(tempCard.CreationDate), &(tempCard.LastModified), &(tempCard.Version),
+			&(tempCard.FrontText), &(tempCard.BackText), &(tempCard.FrontImage),
+			&(tempCard.BackImage))
+		if err != nil {
+			return  nil, fmt.Errorf("Could not scan db values into flashcard list. " + err.Error())
+		}
+		cards = append(cards, tempCard)
+	}
+
+	//return with no errors
+	return cards, nil
+}
