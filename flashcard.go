@@ -4,11 +4,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"./DBHandler"
-	//"net/http"
-	//"time"
-	//"strconv"
 	"net/http"
-	//"time"
 )
 func setupFlashcardRoutes(router *gin.Engine) {
 
@@ -25,7 +21,7 @@ func createCard (ctx *gin.Context) {
 	//grabs data from the http post request and bind it to the FlashCard struct
 	err := ctx.BindJSON(&card)
 
-	//test for errors binding http request data to the signUpForm
+	//test for errors binding http request data to the FlashCard struct
 	if err != nil {
 		ctx.String(http.StatusBadRequest, "Failed binding payload to the FlashCard struct. " + err.Error())
 		return
@@ -35,7 +31,7 @@ func createCard (ctx *gin.Context) {
 	id, err := DBHandler.InsertFlashcard(&card)
 
 	if err != nil {
-		ctx.String(http.StatusInternalServerError, "Failed inserting user: " + err.Error())
+		ctx.String(http.StatusInternalServerError, "Failed inserting flashcard: " + err.Error())
 		return
 	}
 
