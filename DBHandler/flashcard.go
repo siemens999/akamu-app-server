@@ -20,7 +20,7 @@ import (
 	//"time"
 	"time"
 	"fmt"
-	"os/user"
+	//"os/user"
 	"database/sql"
 )
 
