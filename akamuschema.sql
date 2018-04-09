@@ -38,17 +38,15 @@ CREATE TABLE IF NOT EXISTS `akamu`.`university` (
 CREATE TABLE IF NOT EXISTS `akamu`.`subject` (
   `idsubject` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `code` VARCHAR(45) NOT NULL,
   `shortform` VARCHAR(45) NOT NULL,
   `semester` INT NULL,
   `department` VARCHAR(45) NULL,
   `university` INT UNSIGNED NULL,
   `description` VARCHAR(511) NULL,
-  `idmongo` VARCHAR(45) NOT NULL,
+  `idmongo` VARCHAR(45) NULL,
   PRIMARY KEY (`idsubject`),
   UNIQUE INDEX `idsubject_UNIQUE` (`idsubject` ASC),
   INDEX `name_UNIQUE` (`name` ASC),
-  INDEX `code_UNIQUE` (`code` ASC),
   INDEX `shortform_UNIQUE` (`shortform` ASC),
   UNIQUE INDEX `idmongo_UNIQUE` (`idmongo` ASC),
   CONSTRAINT `fk_subject_university`
@@ -71,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `akamu`.`maintainer` (
   `subject` INT UNSIGNED NULL,
   `university` INT UNSIGNED NOT NULL,
   `email` VARCHAR(45) NULL,
-  `idmongo` VARCHAR(45) NOT NULL,
+  `idmongo` VARCHAR(45) NULL,
   PRIMARY KEY (`idmaintainer`),
   UNIQUE INDEX `idmaintainer_UNIQUE` (`idmaintainer` ASC),
   UNIQUE INDEX `login_UNIQUE` (`login` ASC),
@@ -161,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `akamu`.`title` (
   `name` VARCHAR(45) NOT NULL,
   `subject` INT UNSIGNED NULL,
   `unlock_score` INT NULL,
-  `idmongo` VARCHAR(45) NOT NULL,
+  `idmongo` VARCHAR(45) NULL,
   `unlock_win` INT NULL,
   PRIMARY KEY (`idtitle`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC),
@@ -211,14 +209,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `akamu`.`pool` (
   `idpool` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `code` VARCHAR(45) NOT NULL,
   `shortform` VARCHAR(45) NOT NULL,
   `description` VARCHAR(511) NULL,
   `image` INT UNSIGNED NOT NULL,
   `idmongo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idpool`),
   UNIQUE INDEX `idpool_UNIQUE` (`idpool` ASC),
-  UNIQUE INDEX `code_UNIQUE` (`code` ASC),
   UNIQUE INDEX `shortform_UNIQUE` (`shortform` ASC),
   CONSTRAINT `fk_pool_image`
   FOREIGN KEY (`image`)
@@ -506,6 +502,18 @@ CREATE TABLE IF NOT EXISTS `akamu`.`traininglist` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Insert test data
+-- -----------------------------------------------------
+INSERT INTO university (iduniversity, name, city, country) VALUES (1,"Test-University","Test-City","Test-Country");
+INSERT INTO subject (idsubject, name, shortform, semester, department, university, description, idmongo) VALUES (1,"Test-Subject", "subject",1,"Test-Department",1,"This is a test Subject",1);
+INSERT INTO image (idimage,path) VALUES (1,"path to the image");
+INSERT INTO title (idtitle, name, subject, unlock_score, unlock_win) VALUES (1,"Test-Tilte",1,1,1);
+INSERT INTO avatar (idavatar, image) VALUES (1,1);
+INSERT INTO user (iduser, time_registered, username, password, email, semester, experience, selected_avatar, selected_title, verified, university) VALUES (1, "2015-09-18T00:00:00Z", "Test-User", "Test-Password", "test@email.com",1,1,1,1,1,TRUE);
+
+
 
 INSERT INTO `answertype` (`name`) VALUES ('option');
 INSERT INTO `answertype` (`name`) VALUES ('textinput');

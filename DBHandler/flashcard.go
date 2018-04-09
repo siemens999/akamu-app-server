@@ -84,7 +84,7 @@ func InsertFlashcard(card *Flashcard) (id uint32, err error){
 	defer stmt.Close()
 
 	//execute sql statement to insert the new flashcard into the flashcard table
-	_ , err = stmt.Exec(card.Id, card.Author, card.Subject, card.CreationDate, card.LastModified, card.Version, card.FrontText,card.BackText, card.FrontImage, card.BackImage)
+	_ , err = stmt.Exec(card.Id, card.Author, card.Subject, card.CreationDate, card.LastModified, card.Version, card.FrontText, card.BackText, card.FrontImage, card.BackImage)
 
 	//check for errors while executing the insert sql statement
 	if err != nil {
@@ -98,12 +98,14 @@ func InsertFlashcard(card *Flashcard) (id uint32, err error){
 
 	//check for errors creating the sql statement
 	if err != nil {
-		//if an error occured Rollback the transaction
+		//if an error occurred Rollback the transaction
 		tx.Rollback()
 		return 0, fmt.Errorf("Could not create statement to get flashcard id. " + err.Error())
 	}
 
-	//execute sql query that returns the id from the new flashcard and save its value to "id" response parameter	err = stmt.QueryRow().Scan(&id)
+	//execute sql query that returns the id from the new flashcard and save its value to "id" response parameter
+	err = stmt.QueryRow().Scan(&id)
+
 	if err != nil {
 		//if an error occurred, Rollback the transaction
 		tx.Rollback()

@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="516e63ee-04b7-45f0-8bdc-270bfd0add56" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/DBHandler/flashcard.go" afterPath="$PROJECT_DIR$/DBHandler/flashcard.go" />
+      <change beforePath="$PROJECT_DIR$/akamuschema.sql" afterPath="$PROJECT_DIR$/akamuschema.sql" />
       <change beforePath="$PROJECT_DIR$/output/Main" afterPath="$PROJECT_DIR$/output/Main" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,8 +38,8 @@
       <file leaf-file-name="flashcard.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/flashcard.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="10" column="6" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+            <state relative-caret-position="172">
+              <caret line="10" column="12" lean-forward="false" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -46,12 +48,13 @@
       <file leaf-file-name="flashcard.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DBHandler/flashcard.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="22" column="6" lean-forward="false" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+            <state relative-caret-position="336">
+              <caret line="107" column="4" lean-forward="false" selection-start-line="107" selection-start-column="4" selection-end-line="107" selection-end-column="4" />
               <folding>
-                <marker date="1523266758843" expanded="true" signature="1848:2019" ph="INSERT INTO flashcard... " />
-                <marker date="1523266758843" expanded="true" signature="2834:2841" ph="SELECT iduse... user" />
-                <marker date="1523266758843" expanded="true" signature="2834:2857" ph="SELECT LAST_... " />
+                <element signature="e#481#582#0" expanded="true" />
+                <marker date="1523271516726" expanded="true" signature="1848:2019" ph="INSERT INTO flashcard... " />
+                <marker date="1523271516726" expanded="true" signature="2835:2842" ph="SELECT iduse... user" />
+                <marker date="1523271516726" expanded="true" signature="2835:2858" ph="SELECT LAST_... " />
               </folding>
             </state>
           </provider>
@@ -60,9 +63,11 @@
       <file leaf-file-name="user.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="557">
-              <caret line="47" column="5" lean-forward="true" selection-start-line="37" selection-start-column="4" selection-end-line="47" selection-end-column="5" />
-              <folding />
+            <state relative-caret-position="360">
+              <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+              <folding>
+                <element signature="e#14#98#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -70,8 +75,8 @@
       <file leaf-file-name="akamuschema.sql" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/akamuschema.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3036">
-              <caret line="488" column="29" lean-forward="false" selection-start-line="488" selection-start-column="29" selection-end-line="488" selection-end-column="29" />
+            <state relative-caret-position="443">
+              <caret line="512" column="50" lean-forward="false" selection-start-line="512" selection-start-column="50" selection-end-line="512" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -95,6 +100,9 @@
       <find>selected</find>
       <find>user</find>
       <find>date</find>
+      <find>time</find>
+      <find>code</find>
+      <find>idmon</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -109,8 +117,8 @@
         <option value="$PROJECT_DIR$/user.go" />
         <option value="$PROJECT_DIR$/DBHandler/user.go" />
         <option value="$PROJECT_DIR$/main.go" />
-        <option value="$PROJECT_DIR$/flashcard.go" />
         <option value="$PROJECT_DIR$/akamuschema.sql" />
+        <option value="$PROJECT_DIR$/flashcard.go" />
         <option value="$PROJECT_DIR$/DBHandler/flashcard.go" />
       </list>
     </option>
@@ -238,26 +246,52 @@
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20563847" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18739635" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32879582" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32879582" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2722513" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26282722" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -274,7 +308,7 @@
         <state relative-caret-position="1728">
           <caret line="78" column="15" lean-forward="false" selection-start-line="78" selection-start-column="15" selection-end-line="78" selection-end-column="15" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -284,7 +318,6 @@
         <state relative-caret-position="192">
           <caret line="8" column="44" lean-forward="false" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -308,7 +341,7 @@
         <state relative-caret-position="108">
           <caret line="12" column="16" lean-forward="true" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -333,7 +366,6 @@
         <state relative-caret-position="2898">
           <caret line="166" column="43" lean-forward="false" selection-start-line="166" selection-start-column="43" selection-end-line="166" selection-end-column="43" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -365,7 +397,7 @@
         <state relative-caret-position="108">
           <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -375,7 +407,6 @@
         <state relative-caret-position="2466">
           <caret line="142" column="19" lean-forward="true" selection-start-line="142" selection-start-column="19" selection-end-line="142" selection-end-column="19" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -399,7 +430,7 @@
         <state relative-caret-position="144">
           <caret line="14" column="16" lean-forward="false" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -409,7 +440,6 @@
         <state relative-caret-position="2394">
           <caret line="138" column="5" lean-forward="false" selection-start-line="138" selection-start-column="5" selection-end-line="138" selection-end-column="5" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -433,7 +463,7 @@
         <state relative-caret-position="144">
           <caret line="14" column="16" lean-forward="false" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -443,7 +473,6 @@
         <state relative-caret-position="2394">
           <caret line="138" column="5" lean-forward="false" selection-start-line="138" selection-start-column="5" selection-end-line="138" selection-end-column="5" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -475,7 +504,6 @@
         <state relative-caret-position="2394">
           <caret line="138" column="5" lean-forward="false" selection-start-line="138" selection-start-column="5" selection-end-line="138" selection-end-column="5" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -489,7 +517,7 @@
         <state relative-caret-position="1098">
           <caret line="67" column="17" lean-forward="false" selection-start-line="67" selection-start-column="17" selection-end-line="67" selection-end-column="17" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -517,7 +545,7 @@
         <state relative-caret-position="1098">
           <caret line="67" column="17" lean-forward="false" selection-start-line="67" selection-start-column="17" selection-end-line="67" selection-end-column="17" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -527,7 +555,6 @@
         <state relative-caret-position="2394">
           <caret line="138" column="5" lean-forward="false" selection-start-line="138" selection-start-column="5" selection-end-line="138" selection-end-column="5" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -559,7 +586,7 @@
         <state relative-caret-position="1098">
           <caret line="67" column="17" lean-forward="true" selection-start-line="67" selection-start-column="17" selection-end-line="67" selection-end-column="17" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -569,7 +596,6 @@
         <state relative-caret-position="2394">
           <caret line="138" column="5" lean-forward="true" selection-start-line="138" selection-start-column="5" selection-end-line="138" selection-end-column="5" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -608,7 +634,7 @@
         <state relative-caret-position="210">
           <caret line="14" column="29" lean-forward="false" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -618,7 +644,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -642,7 +667,7 @@
         <state relative-caret-position="168">
           <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
           <folding>
-            <element signature="e#14#98#0" expanded="false" />
+            <element signature="e#14#98#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -723,10 +748,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DBHandler/user.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="120" column="0" lean-forward="true" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+        <state relative-caret-position="3048">
+          <caret line="201" column="55" lean-forward="false" selection-start-line="201" selection-start-column="51" selection-end-line="201" selection-end-column="55" />
           <folding>
-            <element signature="e#491#628#0" expanded="true" />
             <marker date="1521591417424" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1521591417424" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
             <marker date="1521591417424" expanded="true" signature="4464:4625" ph="select iduse... user" />
@@ -737,36 +761,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/user.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="557">
-          <caret line="47" column="5" lean-forward="true" selection-start-line="37" selection-start-column="4" selection-end-line="47" selection-end-column="5" />
+        <state relative-caret-position="360">
+          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#98#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/akamuschema.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="512" column="50" lean-forward="false" selection-start-line="512" selection-start-column="50" selection-end-line="512" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/flashcard.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="10" column="6" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/akamuschema.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3036">
-          <caret line="488" column="29" lean-forward="false" selection-start-line="488" selection-start-column="29" selection-end-line="488" selection-end-column="29" />
+        <state relative-caret-position="172">
+          <caret line="10" column="12" lean-forward="false" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DBHandler/flashcard.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="22" column="6" lean-forward="false" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+        <state relative-caret-position="336">
+          <caret line="107" column="4" lean-forward="false" selection-start-line="107" selection-start-column="4" selection-end-line="107" selection-end-column="4" />
           <folding>
-            <marker date="1523266758843" expanded="true" signature="1848:2019" ph="INSERT INTO flashcard... " />
-            <marker date="1523266758843" expanded="true" signature="2834:2841" ph="SELECT iduse... user" />
-            <marker date="1523266758843" expanded="true" signature="2834:2857" ph="SELECT LAST_... " />
+            <element signature="e#481#582#0" expanded="true" />
+            <marker date="1523271516726" expanded="true" signature="1848:2019" ph="INSERT INTO flashcard... " />
+            <marker date="1523271516726" expanded="true" signature="2835:2842" ph="SELECT iduse... user" />
+            <marker date="1523271516726" expanded="true" signature="2835:2858" ph="SELECT LAST_... " />
           </folding>
         </state>
       </provider>
