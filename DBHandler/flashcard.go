@@ -30,12 +30,12 @@ import (
 type Flashcard struct{
 	Id uint32
 	Author uint32
-	Subject uint32
+	Subject uint32 `form:"subject" binding:"required"`
 	CreationDate time.Time
 	LastModified time.Time
 	Version uint32
-	FrontText string
-	BackText string
+	FrontText string `form:"frontText" binding:"required"`
+	BackText string `form:"backText" binding:"required"`
 	FrontImage uint32
 	BackImage uint32
 }
@@ -44,8 +44,8 @@ type Flashcard struct{
  * the data definition of a flashcard training list in the sql traininglist table
  */
 type TrainingList struct{
-	Author uint32
-	Subject uint32
+	Author uint32 `form:"author" binding:"required"`
+	Subject uint32 `form:"subject" binding:"required"`
 	CreationDate time.Time
 	LastModified time.Time
 	Version uint32

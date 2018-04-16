@@ -21,15 +21,13 @@ func createCard (ctx *gin.Context) {
 	//creates empty FlashCard struct
 	card := DBHandler.Flashcard{}
 
-	//grabs data from the http post request and bind it to the FlashCard struct
-	err := ctx.BindJSON(&card)
+	err := ctx.ShouldBindJSON(&card)
 
-	//test for errors binding http request data to the FlashCard struct
-	if err != nil {
-		ctx.String(http.StatusBadRequest, "Failed binding payload to the FlashCard struct. " + err.Error())
+	if err!= nil {
+		ctx.String(http.StatusBadRequest, "Failed binding Flashcard json from request. " + err.Error())
 		return
 	}
-
+	//TODO: put user id from header as the author attribute from the card. Have to find out a more practical way to use it as uint32 than string cast after getting header parameter
 	//insert flashcard into the Akamu sql database and returns it's database id
 	id, err := DBHandler.InsertFlashcard(&card)
 
@@ -42,11 +40,24 @@ func createCard (ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"id":id})
 }
 
-//TODO: define who author id and subject id should be passed here and how the number of flashcard returned should be limited
+/*
+ * returns http response with the list of cards corresponding to the given user and subject.
+ * for more information check the openapi specification.
+ */
 func getCards (ctx *gin.Context) {
 
+	list := DBHandler.TrainingList{}
+
+	//use shouldBindQuery instead of BindQuery in order to handle error response yourself.
+	err := ctx.ShouldBindQuery(&list)
+
+	if err!= nil {
+		ctx.String(http.StatusBadRequest, "Failed binding list query parameters. " + err.Error())
+		return
+	}
+
 	//select user in the database
-	cards, err := DBHandler.SelectFlashCards(1,1)
+	cards, err := DBHandler.SelectFlashCards(list.Author,list.Subject)
 
 	if err != nil {
 		ctx.String(http.StatusInternalServerError, "Failed selecting user from DB. " + err.Error())

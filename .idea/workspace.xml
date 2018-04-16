@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="516e63ee-04b7-45f0-8bdc-270bfd0add56" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/DBHandler/flashcard.go" afterPath="$PROJECT_DIR$/DBHandler/flashcard.go" />
-      <change beforePath="$PROJECT_DIR$/DBHandler/user.go" afterPath="$PROJECT_DIR$/DBHandler/user.go" />
       <change beforePath="$PROJECT_DIR$/flashcard.go" afterPath="$PROJECT_DIR$/flashcard.go" />
       <change beforePath="$PROJECT_DIR$/output/Main" afterPath="$PROJECT_DIR$/output/Main" />
     </list>
@@ -38,8 +38,8 @@
       <file leaf-file-name="flashcard.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flashcard.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="44" column="124" lean-forward="false" selection-start-line="44" selection-start-column="124" selection-end-line="44" selection-end-column="124" />
+            <state relative-caret-position="-241">
+              <caret line="29" column="103" lean-forward="false" selection-start-line="29" selection-start-column="103" selection-end-line="29" selection-end-column="103" />
               <folding>
                 <element signature="e#15#80#0" expanded="true" />
               </folding>
@@ -50,30 +50,15 @@
       <file leaf-file-name="flashcard.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DBHandler/flashcard.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1262">
-              <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
+            <state relative-caret-position="397">
+              <caret line="49" column="26" lean-forward="true" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
               <folding>
                 <element signature="e#481#582#0" expanded="true" />
-                <marker date="1523283442124" expanded="true" signature="1848:2019" ph="INSERT INTO flashcard... " />
-                <marker date="1523283442124" expanded="true" signature="2835:2842" ph="SELECT iduse... user" />
-                <marker date="1523283442124" expanded="true" signature="2835:2858" ph="SELECT LAST_... " />
-                <marker date="1523283442124" expanded="true" signature="4491:4537" ph="SELECT * FRO... flashcard" />
-                <marker date="1523283442124" expanded="true" signature="4491:4543" ph="SELECT * FRO... flashcard" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DBHandler/user.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-58">
-              <caret line="190" column="92" lean-forward="false" selection-start-line="190" selection-start-column="92" selection-end-line="190" selection-end-column="92" />
-              <folding>
-                <marker date="1523283098734" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
-                <marker date="1523283098734" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
-                <marker date="1523283098734" expanded="true" signature="4465:4626" ph="select iduse... user" />
-                <marker date="1523283098734" expanded="true" signature="5971:6115" ph="select iduse... user" />
+                <marker date="1523852681335" expanded="true" signature="2030:2201" ph="INSERT INTO flashcard... " />
+                <marker date="1523852681335" expanded="true" signature="3017:3024" ph="SELECT iduse... user" />
+                <marker date="1523852681335" expanded="true" signature="3017:3040" ph="SELECT LAST_... " />
+                <marker date="1523852681335" expanded="true" signature="4673:4719" ph="SELECT * FRO... flashcard" />
+                <marker date="1523852681335" expanded="true" signature="4673:4725" ph="SELECT * FRO... flashcard" />
               </folding>
             </state>
           </provider>
@@ -82,7 +67,7 @@
       <file leaf-file-name="user.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="878">
+            <state relative-caret-position="2232">
               <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
               <folding>
                 <element signature="e#14#98#0" expanded="true" />
@@ -94,7 +79,7 @@
       <file leaf-file-name="akamuschema.sql" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/akamuschema.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
+            <state relative-caret-position="12288">
               <caret line="512" column="50" lean-forward="false" selection-start-line="512" selection-start-column="50" selection-end-line="512" selection-end-column="50" />
               <folding />
             </state>
@@ -170,17 +155,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="akamu-app-server" type="cbb8eebc:String" user="akamu-app-server" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -212,7 +187,17 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="akamu-app-server" type="cbb8eebc:String" user="akamu-app-server" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -264,13 +249,12 @@
     <frame x="449" y="19" width="1857" height="1092" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1321172" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13377556" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18739635" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32879582" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32879582" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26282722" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -280,6 +264,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -369,7 +354,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="24" column="19" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -407,7 +391,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="24" column="19" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -504,7 +487,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="24" column="19" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -545,7 +527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="24" column="19" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -586,7 +567,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="24" column="19" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -627,7 +607,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="954">
           <caret line="53" column="30" lean-forward="false" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -761,32 +740,21 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="30" column="14" lean-forward="false" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/akamuschema.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
+        <state relative-caret-position="12288">
           <caret line="512" column="50" lean-forward="false" selection-start-line="512" selection-start-column="50" selection-end-line="512" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/user.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="878">
-          <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding>
-            <element signature="e#14#98#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DBHandler/user.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-58">
-          <caret line="190" column="92" lean-forward="false" selection-start-line="190" selection-start-column="92" selection-end-line="190" selection-end-column="92" />
+        <state relative-caret-position="-1873">
+          <caret line="117" column="5" lean-forward="true" selection-start-line="117" selection-start-column="5" selection-end-line="117" selection-end-column="5" />
           <folding>
             <marker date="1523283098734" expanded="true" signature="1831:2007" ph="INSERT INTO user... " />
             <marker date="1523283098734" expanded="true" signature="2830:2872" ph="SELECT iduse... user" />
@@ -796,25 +764,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2232">
+          <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#98#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DBHandler/flashcard.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1262">
-          <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
+        <state relative-caret-position="397">
+          <caret line="49" column="26" lean-forward="true" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
           <folding>
             <element signature="e#481#582#0" expanded="true" />
-            <marker date="1523283442124" expanded="true" signature="1848:2019" ph="INSERT INTO flashcard... " />
-            <marker date="1523283442124" expanded="true" signature="2835:2842" ph="SELECT iduse... user" />
-            <marker date="1523283442124" expanded="true" signature="2835:2858" ph="SELECT LAST_... " />
-            <marker date="1523283442124" expanded="true" signature="4491:4537" ph="SELECT * FRO... flashcard" />
-            <marker date="1523283442124" expanded="true" signature="4491:4543" ph="SELECT * FRO... flashcard" />
+            <marker date="1523852681335" expanded="true" signature="2030:2201" ph="INSERT INTO flashcard... " />
+            <marker date="1523852681335" expanded="true" signature="3017:3024" ph="SELECT iduse... user" />
+            <marker date="1523852681335" expanded="true" signature="3017:3040" ph="SELECT LAST_... " />
+            <marker date="1523852681335" expanded="true" signature="4673:4719" ph="SELECT * FRO... flashcard" />
+            <marker date="1523852681335" expanded="true" signature="4673:4725" ph="SELECT * FRO... flashcard" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/flashcard.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="44" column="124" lean-forward="false" selection-start-line="44" selection-start-column="124" selection-end-line="44" selection-end-column="124" />
+        <state relative-caret-position="-241">
+          <caret line="29" column="103" lean-forward="false" selection-start-line="29" selection-start-column="103" selection-end-line="29" selection-end-column="103" />
           <folding>
             <element signature="e#15#80#0" expanded="true" />
           </folding>
